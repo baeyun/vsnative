@@ -17,6 +17,8 @@ import {
   ScrollView
 } from 'react-native';
 
+import Icon from './src/components/icon'
+
 const instructions =
   'Press Ctrl+R to reload,\n' +
   'Shift+F10 or shake for dev menu';
@@ -29,11 +31,11 @@ class TreeView extends Component<{}> {
     })
 
     const treeData = [
-      {name: 'React', children: {}},
-      {name: 'Redux', children: {}},
-      {name: 'Redux Thunk', children: {}},
-      {name: 'React Native', children: {}},
-      {name: 'React Native Windows', children: {}}
+      {name: 'App.js', children: {}},
+      {name: 'index.js', children: {}},
+      {name: '.watchmanconfig', children: {}},
+      {name: 'LICENSE', children: {}},
+      {name: '.babelrc', children: {}}
     ]
 
     this.state = {
@@ -47,11 +49,11 @@ class TreeView extends Component<{}> {
   
   renderTreeItem(item) {
     return (
-      <TouchableHighlight
-        onPress={(e) => alert(`You chose: ${item.name}`)}
-        style={styles.treeItem}
-        underlayColor="#000">
-        <Text style={styles.treeItemText} children={item.name} />
+      <TouchableHighlight onPress={(e) => null} underlayColor="#000">
+        <View style={styles.treeItem}>
+          <Icon name="javascript" size={20} color="#999999" />
+          <Text style={styles.treeItemText} children={item.name} />
+        </View>
       </TouchableHighlight>
     )
   }
@@ -149,11 +151,14 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   treeItem: {
+    flex: 1,
+    flexDirection: 'row',
     height: 30,
     paddingHorizontal: 15,
     paddingTop: 4
   },
-  treeItemText: {color: '#999'},
+  treeItemIcon: {flex: 1, alignSelf: 'flex-start'},
+  treeItemText: {flex: 4, color: '#999', paddingLeft: 10},
 
   // Misc
   welcome: {
