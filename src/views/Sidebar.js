@@ -9,7 +9,11 @@ import {
 import Icon from '../components/Icon'
 
 import ProjectExplorer from './ProjectExplorer'
-import ProjectSearch from './ProjectSearch'
+import Search from './Search'
+import GitManager from './GitManager'
+import Debug from './Debug'
+import ExtensionsManager from './ExtensionsManager'
+import ProjectTerminal from './ProjectTerminal'
 
 // @note should be load from store?
 const activitybarTabs = [
@@ -64,7 +68,11 @@ export default class Sidebar extends Component<{}> {
 
         {/* Load currently selected tab */}
         { this.state.currentTab === 'Explorer' && <ProjectExplorer /> }
-        { this.state.currentTab === 'Search' && <ProjectSearch /> }
+        { this.state.currentTab === 'Search' && <Search /> }
+        { this.state.currentTab === 'GitManager' && <GitManager /> }
+        { this.state.currentTab === 'Debug' && <Debug /> }
+        { this.state.currentTab === 'Extensions' && <ExtensionsManager /> }
+        { this.state.currentTab === 'Terminal' && <ProjectTerminal /> }
       </Fragment>
     )
   }

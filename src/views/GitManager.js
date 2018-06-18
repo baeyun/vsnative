@@ -3,11 +3,11 @@ import { View, Text } from 'react-native'
 
 import commonStyles from '../themes/commonStyles'
 
-export default class Debug extends Component<{}> {
+export default class GitManager extends Component<{}> {
   render() {
     return (
       <View style={commonStyles.sidebarTab}>
-          <Text>Debugger View</Text>
+          <Text>GitManager</Text>
       </View>
     )
   }
