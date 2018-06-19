@@ -52,7 +52,7 @@ export default class Sidebar extends Component<{}> {
                       key={'activitybarTab_' + i}
                       style={styles.activitybarIcon}
                       onPress={() => this.handleTabClick(tab.name)}>
-                      <Icon name={tab.iconName} size={30} color="#fff" />
+                      <Icon name={tab.iconName} size={30} color="#ddd" />
                     </TouchableOpacity>
                   )
                 }
@@ -91,13 +91,13 @@ const styles = StyleSheet.create({
   },
   activitybarItems: {
     flex: .35,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     marginTop: 15
   },
   activitybarIcon: {
     alignItems: 'center',
     justifyContent: 'center',
     width: 48,
-    height: 48
+    height: 65
   }
 })
