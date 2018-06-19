@@ -53,7 +53,7 @@ export default class TreeView extends Component<{}> {
       <TouchableHighlight key={'treeNode_' + i} onPress={() => this.handleTreeNodeClick(node, i)} underlayColor="#111">
         <View>
           <View
-            style={[styles.treeNode, {paddingLeft: node.indentLevel ? node.indentLevel * 20 : 10}]}
+            style={[styles.treeNode, {paddingLeft: (node.indentLevel * 20) + 10}]}
           >
             {
               this.isDir(node)
