@@ -100,9 +100,9 @@ const treeData = [
   {name: 'package.json'}
 ]
 
-export default (props) => {
+export default ({display}) => {
   return (
-    <View style={commonStyles.sidebarTab}>
+    <View style={[commonStyles.sidebarTab, {display: display ? null : 'none'}]}>
       <View style={styles.actionbar}>
         <Text style={styles.actionbarTitle} children="EXPLORER: PROJECT" />
 

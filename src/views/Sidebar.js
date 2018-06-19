@@ -67,14 +67,14 @@ export default class Sidebar extends Component<{}> {
           </TouchableOpacity>
         </View>
 
-        {/* Load currently selected tab */}
-        { this.state.currentTab === 'Explorer' && <ProjectExplorer /> }
-        { this.state.currentTab === 'Search' && <Search /> }
-        { this.state.currentTab === 'GitManager' && <GitManager /> }
-        { this.state.currentTab === 'Debug' && <Debug /> }
-        { this.state.currentTab === 'Extensions' && <ExtensionsManager /> }
-        { this.state.currentTab === 'Terminal' && <ProjectTerminal /> }
-        { this.state.currentTab === 'Settings' && <Settings /> }
+        {/* Display selected tab */}
+        <ProjectExplorer display={this.state.currentTab === 'Explorer'} />
+        <Search display={this.state.currentTab === 'Search'} />
+        <GitManager display={this.state.currentTab === 'GitManager'} />
+        <Debug display={this.state.currentTab === 'Debug'} />
+        <ExtensionsManager display={this.state.currentTab === 'Extensions'} />
+        <ProjectTerminal display={this.state.currentTab === 'Terminal'} />
+        <Settings display={this.state.currentTab === 'Settings'} />
       </Fragment>
     )
   }
