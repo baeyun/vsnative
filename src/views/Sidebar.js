@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight
+  TouchableOpacity
 } from 'react-native'
 
 import Icon from '../components/Icon'
@@ -14,6 +14,7 @@ import GitManager from './GitManager'
 import Debug from './Debug'
 import ExtensionsManager from './ExtensionsManager'
 import ProjectTerminal from './ProjectTerminal'
+import Settings from './Settings'
 
 // @note should be load from store?
 const activitybarTabs = [
@@ -47,23 +48,23 @@ export default class Sidebar extends Component<{}> {
               activitybarTabs.map(
                 (tab, i) => {
                   return (
-                    <TouchableHighlight
+                    <TouchableOpacity
                       key={'activitybarTab_' + i}
                       style={styles.activitybarIcon}
                       onPress={() => this.handleTabClick(tab.name)}>
-                      <Icon name={tab.iconName} size={30} color="#999999" />
-                    </TouchableHighlight>
+                      <Icon name={tab.iconName} size={30} color="#fff" />
+                    </TouchableOpacity>
                   )
                 }
               )
             }
           </View>
   
-          <TouchableHighlight
+          <TouchableOpacity
             style={[styles.activitybarIcon, {marginBottom: 15}]}
             onPress={() => this.handleTabClick('Settings')}>
-            <Icon name='gear' size={30} color="#999999" />
-          </TouchableHighlight>
+            <Icon name='gear' size={30} color="#fff" />
+          </TouchableOpacity>
         </View>
 
         {/* Load currently selected tab */}
@@ -73,6 +74,7 @@ export default class Sidebar extends Component<{}> {
         { this.state.currentTab === 'Debug' && <Debug /> }
         { this.state.currentTab === 'Extensions' && <ExtensionsManager /> }
         { this.state.currentTab === 'Terminal' && <ProjectTerminal /> }
+        { this.state.currentTab === 'Settings' && <Settings /> }
       </Fragment>
     )
   }

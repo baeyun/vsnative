@@ -12,35 +12,55 @@ import Icon from './Icon'
 export default class TreeView extends Component<{}> {
   constructor(props) {
     super(props)
-
-    this.state = {
-      indentLevel: 0,
-      data: this.props.data.map(
-        (node) => {
-          if (node.children && node.children.length > 0)
-            node.isCollapsed = false
-  
-          return node
-        }
-      )
-    }
   }
 
-  isDirectory(node) {
+  componentWillMount() {
+    const {
+      data,
+      initialCollapseSate = false
+    } = this.props
+
+    this.setState({
+      indentLevel: 0,
+      data: this.createTreeMap(data)
+    })
+  }
+  
+  createTreeMap(data, indent = 0) {
+    const { initialCollapseSate = false } = this.props
+
+    return data.map(
+      (node) => {
+        node.indentLevel = indent
+        
+        if (node.children && node.children.length > 0) {
+          node.indentLevel = indent
+          node.isCollapsed = initialCollapseSate
+          node.children = this.createTreeMap(node.children, node.indentLevel + 1)
+        }
+
+        return node
+      }
+    )
+  }
+
+  isDir(node) {
     return node.hasOwnProperty('isCollapsed')
   }
 
   renderNode(node, i, children = null) {
     return (
-      <TouchableHighlight key={'treeNode_' + i} onPress={() => this.handleTreeNodeClick(node, i)} underlayColor="#000">
+      <TouchableHighlight key={'treeNode_' + i} onPress={() => this.handleTreeNodeClick(node, i)} underlayColor="#111">
         <View>
-          <View style={[styles.treeNode]}>
+          <View
+            style={[styles.treeNode, {paddingLeft: node.indentLevel ? node.indentLevel * 20 : 10}]}
+          >
             {
-              this.isDirectory(node)
+              this.isDir(node)
                 ? node.isCollapsed ? <Icon name="triangle-down" size={20} color="#999999" /> : <Icon name="triangle-right" size={20} color="#999999" />
                 : <Icon name="file-text" size={20} color="#999999" />
             }
-            <Text style={styles.treeNodeText} children={node.name + ` - ${this.state.indentLevel}`} />
+            <Text children={`${node.name} (${node.indentLevel})`} style={styles.treeNodeText} />
           </View>
 
           { node.isCollapsed && children && <View style={styles.nodeChildren} children={children} /> }
@@ -51,7 +71,7 @@ export default class TreeView extends Component<{}> {
   
   getChildNodes(data) {
     return data.map((node, i) => {
-      if (this.isDirectory(node) && node.children.length > 0) {
+      if (this.isDir(node) && node.children && node.children.length > 0) {
         // this.setState((previousState) => {
         //   return {
         //     indentLevel: previousState.indentLevel++
@@ -66,7 +86,7 @@ export default class TreeView extends Component<{}> {
   }
 
   handleTreeNodeClick(node, i) {
-    if (this.isDirectory(node) && node.isCollapsed.constructor === Boolean) { // Folder
+    if (this.isDir(node) && node.isCollapsed.constructor === Boolean) { // Folder
       node.isCollapsed = !node.isCollapsed
 
       this.setState({
@@ -89,12 +109,10 @@ export default class TreeView extends Component<{}> {
   }
 
   render() {
-
-    return (
-      <ScrollView style={styles.container}>
-        { this.getChildNodes(this.state.data) }
-      </ScrollView>
-    )
+    return <ScrollView
+      children={this.getChildNodes(this.state.data)}
+      style={styles.container}
+    />
   }
 }
 
