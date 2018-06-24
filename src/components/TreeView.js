@@ -49,12 +49,25 @@ export default class TreeView extends Component<{}> {
   }
 
   renderNode(node, i, children = null) {
+    const nodeKey = "treeNode_" + i
+    
     return (
-      <TouchableHighlight key={'treeNode_' + i} onPress={() => this.handleTreeNodeClick(node, i)} underlayColor="#111">
+      <TouchableHighlight key={nodeKey} onPress={() => this.handleTreeNodeClick(node, i)} underlayColor="#111">
         <View>
+          {/* // Failed attempt at hover event
           <View
-            style={[styles.treeNode, {paddingLeft: (node.indentLevel * 20) + 10}]}
-          >
+            onMouseOver={() => this.setState((previousState) => {
+              return this.state.mouseOverNodeKey !== nodeKey && {mouseOverNodeKey: nodeKey}
+            })}
+            style={
+              [
+                styles.treeNode,
+                {paddingLeft: (node.indentLevel * 20) + 10},
+                this.state.mouseOverNodeKey === nodeKey && {backgroundColor: "#111"}
+              ]
+            }
+          > */}
+          <View style={[styles.treeNode, {paddingLeft: (node.indentLevel * 20) + 10}]}>
             {
               this.isDir(node)
                 ? node.isCollapsed ? <Icon name="triangle-down" size={20} color="#999999" /> : <Icon name="triangle-right" size={20} color="#999999" />
@@ -110,6 +123,8 @@ export default class TreeView extends Component<{}> {
 
   render() {
     return <ScrollView
+      // indicatorStyle="black"
+      showsVerticalScrollIndicator={false}
       children={this.getChildNodes(this.state.data)}
       style={styles.container}
     />
