@@ -10,7 +10,7 @@ import Icon from '../components/Icon'
 export default (props) => {
   return (
     <View style={styles.statusbar}>
-      <Text style={styles.statusbarText}>
+      {/* <Text style={styles.statusbarText}>
         <Icon style={styles.actionbarIcon} name="git-branch" size={20} color="#ffffff" />
         master
       </Text>
@@ -30,7 +30,7 @@ export default (props) => {
         <Text style={styles.statusbarText}>CRLF</Text>
         <Text style={styles.statusbarText}>JavaScript</Text>
         <Icon style={styles.actionbarIcon} name="bell" size={20} color="#ffffff" />
-      </View>
+      </View> */}
     </View>
   )
 }
