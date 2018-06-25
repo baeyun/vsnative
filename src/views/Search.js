@@ -13,7 +13,7 @@ import Icon from '../components/Icon'
 export default ({display}) => {
   return (
     <View style={[commonStyles.sidebarTab, {display: display ? null : 'none'}]}>
-      <View style={styles.actionbar}>
+      {/* <View style={styles.actionbar}>
         <Text style={styles.actionbarTitle} children="SEARCH" />
 
         <Icon style={styles.actionbarIcon} name="sync" size={20} color="#999999" />
@@ -24,7 +24,7 @@ export default ({display}) => {
         <TextInput placeholder="Search" />
         <TextInput placeholder="Replace" style={{marginTop: 15, marginBottom: 15}} />
         <Button title="Start" style={{backgroundColor: '#fff'}} onPress={() => null} />
-      </View>
+      </View> */}
     </View>
   )
 }
