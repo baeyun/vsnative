@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     flex: .06,
     flexDirection: 'row',
     alignItems: 'center',
-    maxHeight: 40
+    maxHeight: 45
   },
   actionbarTitle: { flex: 4, fontSize: 16, color: '#999', paddingHorizontal: 15 },
   actionbarIcon: { flex: 1 }
