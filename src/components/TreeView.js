@@ -52,17 +52,16 @@ export default class TreeView extends Component<{}> {
     const nodeKey = "treeNode_" + i
     
     return (
-      <TouchableHighlight key={nodeKey} onPress={() => this.handleTreeNodeClick(node, i)} underlayColor="#111">
+      <TouchableHighlight key={nodeKey} onPress={() => this.handleTreeNodeClick(node, i)}>
         <View>
-          {/* // Failed attempt at hover event
-          <View
+          {/* <View
             onMouseOver={() => this.setState((previousState) => {
-              return this.state.mouseOverNodeKey !== nodeKey && {mouseOverNodeKey: nodeKey}
+              return previousState.mouseOverNodeKey !== nodeKey && {mouseOverNodeKey: nodeKey}
             })}
             style={
               [
                 styles.treeNode,
-                {paddingLeft: (node.indentLevel * 20) + 10},
+                {paddingLeft: (node.indentLevel *ual Studio Nativ 20) + 10},
                 this.state.mouseOverNodeKey === nodeKey && {backgroundColor: "#111"}
               ]
             }
