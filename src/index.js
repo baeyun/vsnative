@@ -7,7 +7,7 @@ import Icon from './components/Icon'
 import commonStyles from './themes/commonStyles'
 
 import Sidebar from './views/Sidebar'
-import Editor from './views/Editor'
+import CodeEditor from './views/CodeEditor/'
 import Statusbar from './views/Statusbar'
 
 export default class App extends Component<{}> {
@@ -17,7 +17,7 @@ export default class App extends Component<{}> {
         <View style={[commonStyles.container, {flexDirection: 'row'}]}>
           <Sidebar />
           
-          <Editor />
+          <CodeEditor />
         </View>
 
         <Statusbar />
