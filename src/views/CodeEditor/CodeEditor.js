@@ -16,11 +16,11 @@ export default (props) => {
       >
         <Text style={[styles.codeEditor, {color: "#f92672"}]} children="import" />
         {" "}
-        {"React"}
+        {"RESSheet"}
         {" "}
         <Text style={[styles.codeEditor, {color: "#f92672"}]} children="from" />
         {" "}
-        <Text style={[styles.codeEditor, {color: "#e6db74"}]} children="'react'" />
+        <Text style={[styles.codeEditor, {color: "#e6db74"}]} children="'ress'" />
         {"\n"}
         <Text style={[styles.codeEditor, {color: "#f92672"}]} children="import" />
         {" "}

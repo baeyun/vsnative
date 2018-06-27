@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="db246740-e08e-4585-bf22-6e2442193fc5"
+    Name="b8dbb435-62cb-4334-a184-a22b5329fc76"
     Publisher="CN=bukharim96"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="db246740-e08e-4585-bf22-6e2442193fc5" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="b8dbb435-62cb-4334-a184-a22b5329fc76" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>vsnative</DisplayName>
