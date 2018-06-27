@@ -1,5 +1,6 @@
 using ReactNative;
 using ReactNative.Modules.Core;
+using RNFS;
 using ReactNative.Shell;
 using System.Collections.Generic;
 
@@ -24,6 +25,7 @@ namespace vsnative
         protected override List<IReactPackage> Packages => new List<IReactPackage>
         {
             new MainReactPackage(),
+            new RNFSPackage(),
         };
     }
 }
