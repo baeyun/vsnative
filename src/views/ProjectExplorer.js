@@ -17,7 +17,10 @@ const treeData = [
     {name: 'prod.config.js'},
     {name: 'dev.config.js'}
   ]},
-  {name: 'dist', children: [1,2,3]},
+  {name: 'dist', children: [
+    {name: 'prod.config.js'},
+    {name: 'dev.config.js'}
+  ]},
   {name: 'docs', children: [
     {name: 'CREDITS.md'},
     {name: 'README.md'},
@@ -49,14 +52,32 @@ const treeData = [
     ]}
   ]},
 
-  {name: 'scripts', children: [1,2,3]},
+  {name: 'scripts', children: [
+    {name: 'prod.config.js'},
+    {name: 'dev.config.js'}
+  ]},
   {name: 'src', children: [
-    {name: 'store', children: [1,2,3]},
-    {name: 'css', children: [1,2,3]},
-    {name: 'js', children: [1,2,3]},
-    {name: 'lib', children: [1,2,3]},
-    {name: 'font', children: [1,2,3]},
-    {name: 'img', children: [1,2,3]}
+    {name: 'store', children: [
+      {name: 'webpack.config.js'},
+      {name: 'dev.config.js'}
+    ]},
+    {name: 'css', children: [
+      {name: 'webpack.config.js'},
+      {name: 'common.config.js'},
+    ]},
+    {name: 'js', children: [
+      {name: 'app.config.js'}
+    ]},
+    {name: 'lib', children: [
+      {name: 'webpack.config.js'},
+      {name: 'common.config.js'}
+    ]},
+    {name: 'font', children: [
+      {name: 'dev.config.js'}
+    ]},
+    {name: 'img', children: [
+      {name: 'prod.config.js'}
+    ]}
   ]},
   {name: 'App.js'},
   {name: 'index.js'},

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import {
   StyleSheet,
   Text,
@@ -17,7 +17,7 @@ export default class TreeView extends Component<{}> {
   componentWillMount() {
     const {
       data,
-      initialCollapseSate = false
+      collapseAll = false
     } = this.props
 
     this.setState({
@@ -27,7 +27,7 @@ export default class TreeView extends Component<{}> {
   }
   
   createTreeMap(data, indent = 0) {
-    const { initialCollapseSate = false } = this.props
+    const { collapseAll = false } = this.props
 
     return data.map(
       (node) => {
@@ -35,7 +35,7 @@ export default class TreeView extends Component<{}> {
         
         if (node.children && node.children.length > 0) {
           node.indentLevel = indent
-          node.isCollapsed = initialCollapseSate
+          node.isCollapsed = collapseAll
           node.children = this.createTreeMap(node.children, node.indentLevel + 1)
         }
 
@@ -52,32 +52,27 @@ export default class TreeView extends Component<{}> {
     const nodeKey = "treeNode_" + i
     
     return (
-      <TouchableHighlight key={nodeKey} onPress={() => this.handleTreeNodeClick(node, i)}>
+      <View key={nodeKey}>
         <View>
-          {/* <View
-            onMouseOver={() => this.setState((previousState) => {
-              return previousState.mouseOverNodeKey !== nodeKey && {mouseOverNodeKey: nodeKey}
-            })}
-            style={
-              [
-                styles.treeNode,
-                {paddingLeft: (node.indentLevel *ual Studio Nativ 20) + 10},
-                this.state.mouseOverNodeKey === nodeKey && {backgroundColor: "#111"}
-              ]
-            }
-          > */}
-          <View style={[styles.treeNode, {paddingLeft: (node.indentLevel * 20) + 10}]}>
-            {
-              this.isDir(node)
-                ? node.isCollapsed ? <Icon name="triangle-down" size={20} color="#999999" /> : <Icon name="triangle-right" size={20} color="#999999" />
-                : <Icon name="file-text" size={20} color="#999999" />
-            }
-            <Text children={`${node.name} (${node.indentLevel})`} style={styles.treeNodeText} />
-          </View>
+          <TouchableHighlight
+            onPress={() => this.handleTreeNodeClick(node, i)}
+            style={[styles.treeNode, {paddingLeft: (node.indentLevel * 20) + 10}]}
+          >
+            <Fragment>
+              {
+                this.isDir(node)
+                  ? node.isCollapsed
+                    ? <Icon name="triangle-down" size={16} color="#bbb" />
+                    : <Icon name="triangle-right" size={16} color="#bbb" />
+                  : <Icon name="file-text" size={16} color="#bbb" />
+              }
+              <Text children={`${node.name} (${node.indentLevel})`} style={styles.treeNodeText} />
+            </Fragment>
+          </TouchableHighlight>
 
           { node.isCollapsed && children && <View style={styles.nodeChildren} children={children} /> }
         </View>
-      </TouchableHighlight>
+      </View>
     )
   }
   
@@ -143,5 +138,5 @@ const styles = StyleSheet.create({
     paddingTop: 4
   },
   treeNodeIcon: {flex: 1, alignSelf: 'flex-start'},
-  treeNodeText: {fontSize: 18, flex: 4, color: '#999', paddingLeft: 10, paddingBottom: 3}
+  treeNodeText: {fontSize: 17, flex: 4, color: '#bbb', paddingLeft: 10, paddingBottom: 3}
 })

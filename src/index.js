@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, WebView } from 'react-native'
+import { View, Text, WebView } from 'react-native'
 
 import TreeView from './components/TreeView'
 import Icon from './components/Icon'
@@ -10,10 +10,15 @@ import Sidebar from './views/Sidebar'
 import CodeEditor from './views/CodeEditor/'
 import Statusbar from './views/Statusbar'
 
-const RNFS = require('react-native-fs')
-const dummyDoc = ''
+import { readFile, DocumentDirectoryPath } from 'react-native-fs'
 
-RNFS.readFile(RNFS.DocumentDirectoryPath + '\\dummy-doc.html', 'utf8').then((content) => dummyDoc = content)
+import staticEditor from './static/editor'
+
+// Load local dummy HTML document
+// const dummyDoc = ''
+// readFile(DocumentDirectoryPath + '\\dummy-doc.html', 'utf8').then(
+//   (content) => dummyDoc = content
+// )
 
 export default class App extends Component<{}> {
   render() {
@@ -23,8 +28,10 @@ export default class App extends Component<{}> {
           <Sidebar />
           
           <View style={{flex: 5}}>
+            {/* <Text children={staticEditor} /> */}
             <WebView
-              source={{html: dummyDoc}} />
+              // injectedJavaScript="document.write(navigator.appCodeName)"
+              source={{html: staticEditor}} />
           </View>
         </View>
 
