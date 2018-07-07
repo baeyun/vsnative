@@ -1,0 +1,19 @@
+{
+  "name": "vsnative-editor",
+  "version": "0.1.0",
+  "description": "The editor part of VSNative",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bukharim96/vsnative-editor.git"
+  },
+  "author": "Bukhari M <bukharim96@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bukharim96/vsnative-editor/issues"
+  },
+  "homepage": "https://github.com/bukharim96/vsnative-editor#readme"
+}
