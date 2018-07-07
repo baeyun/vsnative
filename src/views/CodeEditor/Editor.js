@@ -6,20 +6,20 @@ import {
   WebView
 } from 'react-native'
 
-import staticEditor from '../../static/editor'
+// import staticEditor from '../../static/editor'
 
 export default (props) => {
   return (
-    <WebView
-      startInLoadingState={false}
-      style={styles.container}
-      injectedJavaScript="document.body.style.backgroundColor = '#1e1e1e';"
-      source={{html: staticEditor}} />
     // <WebView
     //   startInLoadingState={false}
     //   style={styles.container}
-    //   // injectedJavaScript="document.write(navigator.appCodeName)"
-    //   source={{uri: 'http://127.0.0.1:8888/browser-amd-diff-editor/'}} />
+    //   injectedJavaScript="document.body.style.backgroundColor = '#1e1e1e';"
+    //   source={{html: staticEditor}} />
+    <WebView
+      startInLoadingState={false}
+      style={styles.container}
+      // injectedJavaScript="document.write(navigator.appCodeName)"
+      source={{uri: 'http://127.0.0.1:8888/browser-amd-editor/'}} />
   )
 }
 
