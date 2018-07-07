@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: '#008000'
+    backgroundColor: '#0b510b'
   },
   statusbarText: {
     alignSelf: 'flex-start',
