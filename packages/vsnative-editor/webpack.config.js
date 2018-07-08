@@ -14,10 +14,19 @@ module.exports = {
     filename: 'vsnative-editor-build.js'
   },
   module: {
-    rules: [{
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader']
-    }]
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
   },
   plugins: [
     new MonacoWebpackPlugin(),
@@ -29,7 +38,7 @@ module.exports = {
     }),
     // Inline embed all javascript
     new ScriptExtHtmlWebpackPlugin({
-      async: /\.js$/
+      inline: /\.js$/
     })
   ]
 }
