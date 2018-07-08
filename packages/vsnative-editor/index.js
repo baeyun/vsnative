@@ -3,7 +3,7 @@ import * as monaco from 'monaco-editor'
 // if shipping only a subset of the features & languages is desired
 
 monaco.editor.create(document.getElementById('container'), {
-  value: 'console.log("Hello, world")',
+  // value: 'console.log("Hello, world")',
   language: 'javascript',
   theme: 'vs-dark',
   fontSize: 19

@@ -4,7 +4,8 @@
   "description": "The editor part of VSNative",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node ./node_modules/webpack/bin/webpack.js --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -16,11 +17,11 @@
     "url": "https://github.com/bukharim96/vsnative-editor/issues"
   },
   "homepage": "https://github.com/bukharim96/vsnative-editor#readme",
-  "dependencies": {
-    "monaco-editor": "^0.13.1",
-    "monaco-editor-webpack-plugin": "^1.4.0"
-  },
   "devDependencies": {
+    "css-loader": "^1.0.0",
+    "monaco-editor": "^0.13.1",
+    "monaco-editor-webpack-plugin": "^1.4.0",
+    "style-loader": "^0.21.0",
     "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8"
   }
