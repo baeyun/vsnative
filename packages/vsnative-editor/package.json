@@ -18,9 +18,6 @@
   },
   "homepage": "https://github.com/bukharim96/vsnative-editor#readme",
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-preset-env": "^1.7.0",
     "css-loader": "^1.0.0",
     "html-webpack-plugin": "^3.2.0",
     "monaco-editor": "^0.13.1",
@@ -29,5 +26,6 @@
     "style-loader": "^0.21.0",
     "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8"
-  }
+  },
+  "dependencies": {}
 }
