@@ -11,7 +11,7 @@ module.exports = {
   context: __dirname,
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'vsnative-editor-build.js'
+    filename: 'vsnative-editor.build.js'
   },
   module: {
     rules: [{
@@ -25,11 +25,12 @@ module.exports = {
       title: 'VSNative Editor',
       // inlineSource: '.(js|css)$',
       template: './src/index.html',
+      filename: 'vsnative-editor.build.html',
       inject: true
     }),
     // Inline embed all javascript
     new ScriptExtHtmlWebpackPlugin({
-      async: /\.js$/
+      inline: /^vsnative-editor.build.js$/
     })
   ]
 }
