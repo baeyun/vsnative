@@ -25,7 +25,7 @@ export default class Editor extends Component<{}> {
   componentWillMount() {
     const AssetPath = RNFS.MainBundlePath + '/Assets/'
     
-    RNFS.readFile(AssetPath + 'index.html', 'utf8').then(
+    RNFS.readFile(AssetPath + 'vsnative-editor.build.html', 'utf8').then(
       content => this.setState({staticEditorBuild: content})
     ).catch(err => {
       // @todo better handle error
