@@ -9,6 +9,8 @@ import {
 
 import Icon from './Icon'
 
+const setObjByPath = require('lodash.set')
+
 export default class TreeView extends Component<{}> {
   constructor(props) {
     super(props)
@@ -21,22 +23,27 @@ export default class TreeView extends Component<{}> {
     } = this.props
 
     this.setState({
-      indentLevel: 0,
       data: this.createTreeMap(data)
     })
   }
   
-  createTreeMap(data, indent = 0) {
+  createTreeMap(data, objPath=[]) {
     const { collapseAll = false } = this.props
 
     return data.map(
-      (node) => {
-        node.indentLevel = indent
+      (node, i) => {
+        node.objPath = objPath
+        // node.path = this.pathFromObjPath(objPath)
         
-        if (node.children && node.children.length > 0) {
-          node.indentLevel = indent
+        if (node.children) {
           node.isCollapsed = collapseAll
-          node.children = this.createTreeMap(node.children, node.indentLevel + 1)
+          if (node.children.length > 0)
+            node.children = this.createTreeMap(
+              node.children,
+              objPath.length
+                ? node.objPath.concat(['children', i])
+                : node.objPath.concat(i)
+            )
         }
 
         return node
@@ -45,7 +52,27 @@ export default class TreeView extends Component<{}> {
   }
 
   isDir(node) {
-    return node.hasOwnProperty('isCollapsed')
+    return node.hasOwnProperty('isCollapsed') && node.isCollapsed.constructor === Boolean
+  }
+
+  handleTreeNodeClick(node, i) {
+    if (this.isDir(node)) { // Folder
+      // Toggle collapse state
+      node.isCollapsed = !node.isCollapsed
+
+      // update tree data state
+      this.setState((previousState) => {
+        return {
+          data: setObjByPath(
+            previousState.data,
+            node.objPath.concat(i),
+            node
+          )
+        }
+      })
+    } else { // File
+      // @todo dispatch open file action
+    }
   }
 
   renderNode(node, i, children = null) {
@@ -56,7 +83,8 @@ export default class TreeView extends Component<{}> {
         <View>
           <TouchableHighlight
             onPress={() => this.handleTreeNodeClick(node, i)}
-            style={[styles.treeNode, {paddingLeft: (node.indentLevel * 20) + 10}]}
+            style={[styles.treeNode, {paddingLeft: (node.objPath.length * 15) + 20}]}
+            underlayColor="#1e1e1e"
           >
             <Fragment>
               {
@@ -66,7 +94,9 @@ export default class TreeView extends Component<{}> {
                     : <Icon name="triangle-right" size={16} color="#bbb" />
                   : <Icon name="file-text" size={16} color="#bbb" />
               }
-              <Text children={`${node.name} (${node.indentLevel})`} style={styles.treeNodeText} />
+              <Text
+                children={node.name}
+                style={styles.treeNodeText} />
             </Fragment>
           </TouchableHighlight>
 
@@ -78,41 +108,13 @@ export default class TreeView extends Component<{}> {
   
   getChildNodes(data) {
     return data.map((node, i) => {
-      if (this.isDir(node) && node.children && node.children.length > 0) {
-        // this.setState((previousState) => {
-        //   return {
-        //     indentLevel: previousState.indentLevel++
-        //   }
-        // })
-
-        return this.renderNode(node, i, this.getChildNodes(node.children))
-      }
+      if (this.isDir(node) && node.children && node.children.length > 0)
+        return this.renderNode(
+          node, i, this.getChildNodes(node.children)
+        )
 
       return this.renderNode(node, i)
     })
-  }
-
-  handleTreeNodeClick(node, i) {
-    if (this.isDir(node) && node.isCollapsed.constructor === Boolean) { // Folder
-      node.isCollapsed = !node.isCollapsed
-
-      this.setState({
-        data: this.state.data.map(
-          (d, k) => k === i ? node : d
-        )
-      })
-
-      // @fix do it the react way (make use of previous state)
-      // this.setState((previousState) => {
-      //   return {
-      //       data: previousState.data.map(
-      //       (d, k) => k === i ? node : d
-      //     )
-      //   }
-      // })
-    } else { // File
-      // Open file in editor
-    }
   }
 
   render() {
