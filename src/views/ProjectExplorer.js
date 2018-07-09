@@ -11,115 +11,75 @@ import Icon from '../components/Icon'
 
 // @note should be loaded from store
 const treeData = [
-  {name: 'config', children: [
-    {name: 'webpack.config.js'},
-    {name: 'common.config.js'},
-    {name: 'prod.config.js'},
-    {name: 'dev.config.js'}
-  ]},
-  {name: 'dist', children: [
-    {name: 'prod.config.js'},
-    {name: 'dev.config.js'}
-  ]},
-  {name: 'docs', children: [
-    {name: 'CREDITS.md'},
-    {name: 'README.md'},
-    {name: 'LICENSE'}
-  ]},
-
-  {name: 'node_modules', children: [
-    {name: 'react', children: [
-      {name: 'CREDITS.md'},
-      {name: 'README.md'},
-      {name: 'index.js'},
-      {name: 'LICENSE'}
-    ]},
-    {name: 'socket-io', children: [
-      {name: 'CREDITS.md'},
-      {name: 'README.md'},
-      {name: 'index.js'},
-      {name: 'LICENSE'}
-    ]},
-    {name: 'json', children: [
-      {name: 'lib', children: [
-        {name: 'json5.js'},
-        {name: 'json4.js'}
+{name:'.vs', children: []},
+{name:'node_modules', children: []},
+{name:'packages', children: []},
+{name:'scripts', children: [
+  {name:'build-editor.js'},
+  {name:'build.js'},
+  {name:'start.js'}
+]},
+{name:'src', children: [
+  {name: 'components', children: [
+    {name:'Icon.js'},
+    {name:'index.js'},
+    {name:'TreeView.js'},
+    {name:'views', children: [
+      {name:'CodeEditor', children: [
+        {name:'Editor.js'},
+        {name:'index.js'},
+        {name:'TabHeaderItem.js'},
+        {name:'TabHeaders.js'},
       ]},
-      {name: 'CREDITS.md'},
-      {name: 'README.md'},
-      {name: 'index.js'},
-      {name: 'LICENSE'}
-    ]}
+      {name:'Debug.js'},
+      {name:'ExtensionsManager.js'},
+      {name:'GitManager.js'},
+      {name:'ProjectExplorer.js'},
+      {name:'ProjectTerminal.js'},
+      {name:'Search.js'},
+      {name:'Settings.js'},
+      {name:'Sidebar.js'},
+      {name:'Statusbar.js'}
+    ]},
+    {name:'index.js'}
+  ]}
+]},
+{name:'static', children: [
+  {name:'icons', children: [
+    {name:'octicons-selection.json'},
+    {name:'octicons.eot'},
+    {name:'octicons.svg'},
+    {name:'octicons.ttf'},
+    {name:'octicons.woff'},
+    {name:'seti-selection.json'},
+    {name:'seti.eot'},
+    {name:'seti.svg'},
+    {name:'seti.ttf'},
+    {name:'seti.woff'}
   ]},
-
-  {name: 'scripts', children: [
-    {name: 'prod.config.js'},
-    {name: 'dev.config.js'}
-  ]},
-  {name: 'src', children: [
-    {name: 'store', children: [
-      {name: 'webpack.config.js'},
-      {name: 'dev.config.js'}
-    ]},
-    {name: 'css', children: [
-      {name: 'webpack.config.js'},
-      {name: 'common.config.js'},
-    ]},
-    {name: 'js', children: [
-      {name: 'app.config.js'}
-    ]},
-    {name: 'lib', children: [
-      {name: 'webpack.config.js'},
-      {name: 'common.config.js'}
-    ]},
-    {name: 'font', children: [
-      {name: 'dev.config.js'}
-    ]},
-    {name: 'img', children: [
-      {name: 'prod.config.js'}
-    ]}
-  ]},
-  {name: 'App.js'},
-  {name: 'index.js'},
-  {name: '.watchmanconfig'},
-  {name: '.gitignore'},
-  {name: '.gitattributes'},
-  {name: '.flowconfig'},
-  {name: '.babelrc'},
-  {name: '.buckconfig'},
-  {name: 'LICENSE'},
-  {name: 'yarn-lock.json'},
-  {name: 'webpack.config.js'},
-  {name: 'README.md'},
-  {name: '.watchmanconfig'},
-  {name: '.gitignore'},
-  {name: '.gitattributes'},
-  {name: '.flowconfig'},
-  {name: '.babelrc'},
-  {name: '.buckconfig'},
-  {name: '.watchmanconfig'},
-  {name: '.gitignore'},
-  {name: '.gitattributes'},
-  {name: '.flowconfig'},
-  {name: '.babelrc'},
-  {name: '.buckconfig'},
-  {name: 'LICENSE'},
-  {name: 'yarn-lock.json'},
-  {name: 'webpack.config.js'},
-  {name: 'README.md'},
-  {name: '.watchmanconfig'},
-  {name: 'LICENSE'},
-  {name: 'yarn-lock.json'},
-  {name: 'webpack.config.js'},
-  {name: 'README.md'},
-  {name: '.watchmanconfig'},
-  {name: '.gitignore'},
-  {name: '.gitattributes'},
-  {name: '.flowconfig'},
-  {name: '.babelrc'},
-  {name: '.buckconfig'},
-  {name: 'package.json'}
-]
+  {name:'js', children: []},
+  {name:'index.html'}
+]},
+{name:'themes', children: [
+  {name:'commonStyles.js'},
+  {name:'vsnDark.js'}
+]},
+{name:'windows', children: []},
+{name:'.babelrc'},
+{name:'.buckconfig'},
+{name:'.flowconfig'},
+{name:'.gitattributes'},
+{name:'.gitignore'},
+{name:'.watchmanconfig'},
+{name:'App.js'},
+{name:'app.json'},
+{name:'App.windows.js'},
+{name:'index.js'},
+{name:'lerna-debug.log'},
+{name:'lerna.json'},
+{name:'LICENSE'},
+{name:'package.json'},
+{name:'README.md'}]
 
 export default ({display}) => {
   return (
