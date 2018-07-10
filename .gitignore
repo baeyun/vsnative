@@ -57,3 +57,6 @@ buck-out/
 
 # lerna debug log
 lerna-debug.log
+
+# Ignore editor builds
+packages/vsnative-editor/build/*
