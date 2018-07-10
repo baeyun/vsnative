@@ -1,5 +1,1 @@
 *.pbxproj -text
-
-* linguist-vendored
-*.html linguist-vendored=false
-*.htm linguist-vendored=false
