@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
+import { SplitViewWindows } from 'react-native-windows'
 
 import TreeView from './components/TreeView'
 import Icon from './components/Icon'
@@ -27,6 +28,12 @@ export default class App extends Component<{}> {
 
           <CodeEditor />
         </View>
+        {/* <SplitViewWindows
+          paneWidth={500}
+          panePosition={SplitViewWindows.positions.Left}
+          renderPaneView={() => <Sidebar />}>
+          <CodeEditor />
+        </SplitViewWindows> */}
 
         <Statusbar />
       </View>
