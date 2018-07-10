@@ -45,8 +45,10 @@ export default class App extends Component<{}> {
   render() {
     return (
       <ScrollView
-        horizontal={true}
+        scrollEnabled={false} // necessary
+        horizontal={true} // override ^
         showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         style={styles.container}
       >
         {this.state.openFiles.map(
