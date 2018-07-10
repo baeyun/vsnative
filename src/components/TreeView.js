@@ -17,18 +17,17 @@ export default class TreeView extends Component<{}> {
   }
 
   componentWillMount() {
-    const {
-      data,
-      collapseAll = false
-    } = this.props
-
     this.setState({
-      data: this.createTreeMap(data)
+      data: this.createTreeMap(this.props.data)
     })
   }
   
   createTreeMap(data, objPath=[]) {
-    const { collapseAll = false } = this.props
+    let { collapseAll = false } = this.props
+
+    // Sort: folders first
+    // @todo presort tree data via file watch
+    data.sort((a, b) => -(Object.keys(a).length - Object.keys(b).length))
 
     return data.map(
       (node, i) => {
