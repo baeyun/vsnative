@@ -53,7 +53,7 @@ export default class Editor extends Component<{}> {
           startInLoadingState={false}
           injectedJavaScript="window.postMessage('Hello there! This is a message from the editor!')"
           source={{html: this.state.staticEditorBuild}} />
-        <Text style={{color: "#008000"}} children={this.state.msg || null} />
+        {/* <Text style={{color: "#008000"}} children={this.state.msg || null} /> */}
       </View>
     )
   }
