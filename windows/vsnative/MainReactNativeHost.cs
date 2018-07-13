@@ -25,7 +25,8 @@ namespace vsnative
         protected override List<IReactPackage> Packages => new List<IReactPackage>
         {
             new MainReactPackage(),
-            new RNFSPackage(),
+            new VSNativeFSPackage(),
+            new RNFSPackage()
         };
     }
 }

@@ -2,7 +2,9 @@ import React from 'react'
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableOpacity,
+  NativeModules
 } from 'react-native'
 
 import commonStyles from '../themes/commonStyles'
@@ -81,6 +83,24 @@ const treeData = [
 {name:'package.json'},
 {name:'README.md'}]
 
+async function pickFileDialogue() {
+  try {
+    var file = await NativeModules.VSNativeFSManager.pickFileDialogue();
+    console.log(file);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function pickFolderDialogue() {
+  try {
+    var folder = await NativeModules.VSNativeFSManager.pickFolderDialogue();
+    console.log(folder);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 export default ({display}) => {
   return (
     <View style={[commonStyles.sidebarTab, {display: display ? null : 'none'}]}>
@@ -93,6 +113,22 @@ export default ({display}) => {
         <Icon style={styles.actionbarIcon} name="chevron-up" size={20} color="#999999" />
       </View>
       <TreeView data={treeData} />
+
+      <TouchableOpacity
+        onPress={() => prompt("This is a test!")}
+        children={<Text children="Prompt Test" style={{color: "#767676"}} />}
+        style={{padding: 15, backgroundColor: "#2e2e2e"}}
+      />
+      <TouchableOpacity
+        onPress={() => pickFileDialogue()}
+        children={<Text children="Open File" style={{color: "#767676"}} />}
+        style={{padding: 15, backgroundColor: "#2e2e2e", borderTopWidth: 1, borderColor: "#1e1e1e", borderStyle: "solid"}}
+      />
+      <TouchableOpacity
+        onPress={() => pickFolderDialogue()}
+        children={<Text children="Open Folder" style={{color: "#767676"}} />}
+        style={{padding: 15, backgroundColor: "#2e2e2e", borderTopWidth: 1, borderColor: "#1e1e1e", borderStyle: "solid"}}
+      />
     </View>
   )
 }
