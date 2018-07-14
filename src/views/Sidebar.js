@@ -6,6 +6,7 @@ import {
   TouchableOpacity
 } from 'react-native'
 
+import MenuButton from '../components/windows/MenuButton'
 import Icon from '../components/Icon'
 
 import ProjectExplorer from './ProjectExplorer'
@@ -41,41 +42,50 @@ export default class Sidebar extends Component<{}> {
 
   render() {
     return (
-      <Fragment>
-        <View style={styles.activitybar}>
-          <View style={styles.activitybarItems}>
-            {
-              activitybarTabs.map(
-                (tab, i) => {
-                  return (
-                    <TouchableOpacity
-                      key={'activitybarTab_' + i}
-                      style={styles.activitybarIcon}
-                      onPress={() => this.handleTabClick(tab.name)}>
-                      <Icon name={tab.iconName} size={30} color="#ddd" />
-                    </TouchableOpacity>
-                  )
-                }
-              )
-            }
-          </View>
-  
-          <TouchableOpacity
-            style={[styles.activitybarIcon, {marginBottom: 15}]}
-            onPress={() => this.handleTabClick('Settings')}>
-            <Icon name='gear' size={30} color="#fff" />
-          </TouchableOpacity>
+      <View style={{flexDirection: 'column'}}>
+        <View style={{flex: .4, flexDirection: 'row'}}>
+          <MenuButton content="File" style={{width: 60, height: 45}} />
+          <MenuButton content="Edit" style={{width: 60, height: 45}} />
+          <MenuButton content="Selection" style={{width: 110, height: 45}} />
+          <MenuButton content="View" style={{width: 65, height: 45}} />
+          <MenuButton content="Help" style={{width: 65, height: 45}} />
         </View>
+        <View style={{flex: 9.6, flexDirection: 'row'}}>
+          <View style={styles.activitybar}>
+            <View style={styles.activitybarItems}>
+              {
+                activitybarTabs.map(
+                  (tab, i) => {
+                    return (
+                      <TouchableOpacity
+                        key={'activitybarTab_' + i}
+                        style={styles.activitybarIcon}
+                        onPress={() => this.handleTabClick(tab.name)}>
+                        <Icon name={tab.iconName} size={30} color="#ddd" />
+                      </TouchableOpacity>
+                    )
+                  }
+                )
+              }
+            </View>
+    
+            <TouchableOpacity
+              style={[styles.activitybarIcon, {marginBottom: 15}]}
+              onPress={() => this.handleTabClick('Settings')}>
+              <Icon name='gear' size={30} color="#fff" />
+            </TouchableOpacity>
+          </View>
 
-        {/* Display selected tab */}
-        <ProjectExplorer display={this.state.currentTab === 'Explorer'} />
-        <Search display={this.state.currentTab === 'Search'} />
-        <GitManager display={this.state.currentTab === 'GitManager'} />
-        <Debug display={this.state.currentTab === 'Debug'} />
-        <ExtensionsManager display={this.state.currentTab === 'Extensions'} />
-        <ProjectTerminal display={this.state.currentTab === 'Terminal'} />
-        <Settings display={this.state.currentTab === 'Settings'} />
-      </Fragment>
+          {/* Display selected tab */}
+          <ProjectExplorer display={this.state.currentTab === 'Explorer'} />
+          <Search display={this.state.currentTab === 'Search'} />
+          <GitManager display={this.state.currentTab === 'GitManager'} />
+          <Debug display={this.state.currentTab === 'Debug'} />
+          <ExtensionsManager display={this.state.currentTab === 'Extensions'} />
+          <ProjectTerminal display={this.state.currentTab === 'Terminal'} />
+          <Settings display={this.state.currentTab === 'Settings'} />
+        </View>
+      </View>
     )
   }
 }
