@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 public class VSNativeMenuButtonManager : SimpleViewManager<Button>
 {
@@ -20,7 +21,12 @@ public class VSNativeMenuButtonManager : SimpleViewManager<Button>
 
     protected override Button CreateViewInstance(ThemedReactContext reactContext)
     {
-        return new Button();
+        return new Button
+        {
+            Background = new SolidColorBrush(Windows.UI.Colors.Transparent),
+            BorderThickness = new Thickness(0, 0, 0, 0),
+            FontSize = 12
+        };
     }
 
     [ReactProp("content")]
