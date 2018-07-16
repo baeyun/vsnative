@@ -45,7 +45,7 @@ namespace vsnative
         {
             return new List<IViewManager>
             {
-                new VSNativeMenuButtonManager()
+                new VSNativeMenubarManager()
             };
         }
     }
