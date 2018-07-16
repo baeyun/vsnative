@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
+using ReactNative.Bridge;
+using ReactNative.Modules.Core;
 using ReactNative.UIManager;
 using ReactNative.UIManager.Annotations;
 using System;
@@ -21,15 +23,30 @@ public class VSNativeMenubarManager : SimpleViewManager<StackPanel>
         }
     }
 
+    public ThemedReactContext reactContext;
+
     public XNamespace XamlNamespace = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
 
     protected override StackPanel CreateViewInstance(ThemedReactContext reactContext)
     {
+        // Set context
+        this.reactContext = reactContext;
+
         return new StackPanel
         {
             Background = new SolidColorBrush(Windows.UI.Colors.Transparent),
             Orientation = Orientation.Horizontal
         };
+    }
+
+    // Emit events on the JS side
+    internal RCTNativeAppEventEmitter Emitter
+    {
+        get
+        {
+            // @todo make singleton?
+            return this.reactContext.GetJavaScriptModule<RCTNativeAppEventEmitter>();
+        }
     }
 
     [ReactProp("data")]
@@ -52,17 +69,6 @@ public class VSNativeMenubarManager : SimpleViewManager<StackPanel>
                 menu.Add(
                     this.DataToMenuFlyoutItems(menuBtn.Value<JArray>("submenu"))
                 );
-
-                // Set dropdown min width
-                //menu.Add(new XAttribute("MenuFlyoutPresenterStyle",
-                //    new XElement(this.XamlNamespace + "Style",
-                //        new XAttribute("TargetType", "MenuFlyoutPresenter"),
-                //        new XElement(this.XamlNamespace + "Setter",
-                //            new XAttribute("Property", "MinWidth"),
-                //            new XAttribute("Value", "250")
-                //        )
-                //    )
-                //));
 
                 button.Flyout = (MenuFlyout)XamlReader.Load(menu.ToString());
             }
@@ -91,12 +97,6 @@ public class VSNativeMenubarManager : SimpleViewManager<StackPanel>
                 this.XamlNamespace + menuItemXName,
                 new XAttribute("Text", d.Value<string>("name"))
             );
-
-            // Set icon
-            //if (!string.IsNullOrEmpty(d.Value<string>("icon")))
-            //    menuItem.Add(new XAttribute("Icon",
-            //        new XElement(this.XamlNamespace + "FontIcon", new XAttribute("Glyph", d.Value<string>("icon")))
-            //    ));
 
             if (d.Value<JArray>("submenu") != null)
                 menuItem.Add(
