@@ -6,7 +6,6 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-import MenuButton from '../components/windows/MenuButton'
 import Icon from '../components/Icon'
 
 import ProjectExplorer from './ProjectExplorer'
