@@ -45,12 +45,24 @@ public class VSNativeMenubarManager : SimpleViewManager<StackPanel>
                 FontSize = 12
             };
 
-            if (menuBtn.Value<JArray>("menu") != null)
+            if (menuBtn.Value<JArray>("submenu") != null)
             {
                 XElement menu = new XElement(this.XamlNamespace + "MenuFlyout");
+
                 menu.Add(
-                    this.DataToMenuFlyoutItems(menuBtn.Value<JArray>("menu"))
+                    this.DataToMenuFlyoutItems(menuBtn.Value<JArray>("submenu"))
                 );
+
+                // Set dropdown min width
+                //menu.Add(new XAttribute("MenuFlyoutPresenterStyle",
+                //    new XElement(this.XamlNamespace + "Style",
+                //        new XAttribute("TargetType", "MenuFlyoutPresenter"),
+                //        new XElement(this.XamlNamespace + "Setter",
+                //            new XAttribute("Property", "MinWidth"),
+                //            new XAttribute("Value", "250")
+                //        )
+                //    )
+                //));
 
                 button.Flyout = (MenuFlyout)XamlReader.Load(menu.ToString());
             }
@@ -65,21 +77,33 @@ public class VSNativeMenubarManager : SimpleViewManager<StackPanel>
 
         foreach (JObject d in data)
         {
+            if (d.Value<bool>("seperator"))
+            {
+                menuItems.Add(new XElement(this.XamlNamespace + "MenuFlyoutSeparator"));
+                continue;
+            }
+            
+            string menuItemXName = (d.Value<JArray>("submenu") != null)
+                ? "MenuFlyoutSubItem"
+                : d.Value<bool>("toggle") ? "ToggleMenuFlyoutItem" : "MenuFlyoutItem";
+
+            XElement menuItem = new XElement(
+                this.XamlNamespace + menuItemXName,
+                new XAttribute("Text", d.Value<string>("name"))
+            );
+
+            // Set icon
+            //if (!string.IsNullOrEmpty(d.Value<string>("icon")))
+            //    menuItem.Add(new XAttribute("Icon",
+            //        new XElement(this.XamlNamespace + "FontIcon", new XAttribute("Glyph", d.Value<string>("icon")))
+            //    ));
+
             if (d.Value<JArray>("submenu") != null)
-            {
-                menuItems.Add(new XElement(
-                    this.XamlNamespace + "MenuFlyoutSubItem",
-                    new XAttribute("Text", d.Value<string>("name")),
+                menuItem.Add(
                     this.DataToMenuFlyoutItems(d.Value<JArray>("submenu"))
-                ));
-            }
-            else
-            {
-                menuItems.Add(new XElement(
-                    this.XamlNamespace + "MenuFlyoutItem",
-                    new XAttribute("Text", d.Value<string>("name"))
-                ));
-            }
+                );
+
+            menuItems.Add(menuItem);
         }
 
         return menuItems;

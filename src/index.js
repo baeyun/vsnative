@@ -17,13 +17,13 @@ import { readFile, DocumentDirectoryPath } from 'react-native-fs'
 const menuData = [
   {
     name: "File",
-    menu: [
+    submenu: [
       {name: "New File", callback: ""},
       {name: "New Window", callback: ""},
-    //  {seperator},
+      {seperator: true},
       {name: "Open File", callback: ""},
       {name: "Open Folder", callback: ""},
-    //  {seperator},
+      {seperator: true},
       {name: "Open Workspace", callback: ""},
       {name: "Open recent", submenu: [
         {name: "./views/CodeEditor/index.js", callback: ""},
@@ -36,26 +36,32 @@ const menuData = [
           {name: "../vsnative/", callback: ""}
         ]}
       ]},
-    //  {seperator},
+      {seperator: true},
       {name: "Save", callback: ""},
       {name: "Save As", callback: ""},
       {name: "Save All", callback: ""},
       {name: "Save", callback: ""},
-    //  {seperator},
+      {seperator: true},
       {name: "Auto Save", toggle: true, callback: ""},
-    //  {seperator},
+      {seperator: true},
       {name: "Preferences", callback: ""},
-    //  {seperator},
+      {seperator: true},
       {name: "Revert File", callback: ""},
       {name: "Close Editor", callback: ""},
       {name: "Close Folder", callback: ""},
       {name: "Close Window", callback: ""}
     ]
   },
-  {name: "Edit"},
+  {name: "Edit", submenu: [
+    {name: "Word Wrap", toggle: true}
+  ]},
   {name: "Selection"},
   {name: "View"},
-  {name: "Go"},
+  {name: "Go", submenu: [
+    {name: "Share", icon: "&#xE72D;"},
+    {name: "Copy"},
+    {name: "Delete"},
+  ]},
   {name: "Debug"},
   {name: "Tasks"},
   {name: "Help"}
@@ -74,12 +80,6 @@ export default class App extends Component<{}> {
 
           <CodeEditor />
         </View>
-        {/* <SplitViewWindows
-          paneWidth={500}
-          panePosition={SplitViewWindows.positions.Left}
-          renderPaneView={() => <Sidebar />}>
-          <CodeEditor />
-        </SplitViewWindows> */}
 
         <Statusbar />
       </View>
