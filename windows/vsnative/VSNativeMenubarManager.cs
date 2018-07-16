@@ -35,41 +35,53 @@ public class VSNativeMenubarManager : SimpleViewManager<StackPanel>
     [ReactProp("data")]
     public void SetMenuData(StackPanel view, IList<JObject> data)
     {
-        XElement menu = new XElement(this.XamlNamespace + "MenuFlyout",
-            new XElement(this.XamlNamespace + "MenuFlyoutItem", new XAttribute("Text", "Open")),
-            new XElement(this.XamlNamespace + "MenuFlyoutSubItem",
-                new XAttribute("Text", "Send to"),
-                new XElement(this.XamlNamespace + "MenuFlyoutItem", new XAttribute("Text", "Bluetooth")),
-                new XElement(this.XamlNamespace + "MenuFlyoutItem", new XAttribute("Text", "Desktop (shortcut)")),
-                new XElement(this.XamlNamespace + "MenuFlyoutSubItem",
-                    new XAttribute("Text", "Compressed file"),
-                    new XElement(this.XamlNamespace + "MenuFlyoutItem", new XAttribute("Text", "Compress and email")),
-                    new XElement(this.XamlNamespace + "MenuFlyoutItem", new XAttribute("Text", "Compress to .7z")),
-                    new XElement(this.XamlNamespace + "MenuFlyoutItem", new XAttribute("Text", "Compress to .zip"))
-                )
-            )
-        );
-
-        view.Children.Add(
-            new Button
+        foreach (JObject menuBtn in data)
+        {
+            Button button = new Button
             {
-                Content = "File",
+                Content = menuBtn.Value<string>("name"),
                 Background = new SolidColorBrush(Windows.UI.Colors.Transparent),
                 BorderThickness = new Thickness(0, 0, 0, 0),
-                FontSize = 12,
-                Flyout = (MenuFlyout)XamlReader.Load(menu.ToString())
-            }
-        );
+                FontSize = 12
+            };
 
-        foreach (JObject menuBtn in data)
-            view.Children.Add(
-                new Button
-                {
-                    Content = menuBtn.Value<string>("name"),
-                    Background = new SolidColorBrush(Windows.UI.Colors.Transparent),
-                    BorderThickness = new Thickness(0, 0, 0, 0),
-                    FontSize = 12
-                }
-            );
+            if (menuBtn.Value<JArray>("menu") != null)
+            {
+                XElement menu = new XElement(this.XamlNamespace + "MenuFlyout");
+                menu.Add(
+                    this.DataToMenuFlyoutItems(menuBtn.Value<JArray>("menu"))
+                );
+
+                button.Flyout = (MenuFlyout)XamlReader.Load(menu.ToString());
+            }
+
+            view.Children.Add(button);
+        }
+    }
+
+    public List<XElement> DataToMenuFlyoutItems(JArray data)
+    {
+        List<XElement> menuItems = new List<XElement>();
+
+        foreach (JObject d in data)
+        {
+            if (d.Value<JArray>("submenu") != null)
+            {
+                menuItems.Add(new XElement(
+                    this.XamlNamespace + "MenuFlyoutSubItem",
+                    new XAttribute("Text", d.Value<string>("name")),
+                    this.DataToMenuFlyoutItems(d.Value<JArray>("submenu"))
+                ));
+            }
+            else
+            {
+                menuItems.Add(new XElement(
+                    this.XamlNamespace + "MenuFlyoutItem",
+                    new XAttribute("Text", d.Value<string>("name"))
+                ));
+            }
+        }
+
+        return menuItems;
     }
 }

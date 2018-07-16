@@ -14,42 +14,50 @@ import Statusbar from './views/Statusbar'
 
 import { readFile, DocumentDirectoryPath } from 'react-native-fs'
 
-// const fileMenuData = [
-//   {name: "New File", callback: ""},
-//   {name: "New Window", callback: ""},
-// //  {seperator},
-//   {name: "Open File", callback: ""},
-//   {name: "Open Folder", callback: ""},
-// //  {seperator},
-//   {name: "Open Workspace", callback: ""},
-//   {name: "Open recent", submenu: [
-//     {name: "./views/CodeEditor/index.js", callback: ""},
-//     {name: "../components/windows/MenuButton", callback: ""},
-//     {name: "./guppy/scripts/", callback: ""},
-//     {name: "../static/img/logo.png", callback: ""},
-//     {name: "../vsnative/", callback: ""}
-//   ]},
-// //  {seperator},
-//   {name: "Save", callback: ""},
-//   {name: "Save As", callback: ""},
-//   {name: "Save All", callback: ""},
-//   {name: "Save", callback: ""},
-// //  {seperator},
-//   {name: "Auto Save", toggle: true, callback: ""},
-// //  {seperator},
-//   {name: "Preferences", callback: ""},
-// //  {seperator},
-//   {name: "Revert File", callback: ""},
-//   {name: "Close Editor", callback: ""},
-//   {name: "Close Folder", callback: ""},
-//   {name: "Close Window", callback: ""}
-// ]
-
 const menuData = [
-  // {name: "File"},
+  {
+    name: "File",
+    menu: [
+      {name: "New File", callback: ""},
+      {name: "New Window", callback: ""},
+    //  {seperator},
+      {name: "Open File", callback: ""},
+      {name: "Open Folder", callback: ""},
+    //  {seperator},
+      {name: "Open Workspace", callback: ""},
+      {name: "Open recent", submenu: [
+        {name: "./views/CodeEditor/index.js", callback: ""},
+        {name: "../components/windows/MenuButton", callback: ""},
+        {name: "./guppy/scripts/", callback: ""},
+        {name: "../static/img/logo.png", callback: ""},
+        {name: "More...", submenu: [
+          {name: "./guppy/scripts/", callback: ""},
+          {name: "../components/windows/MenuButton", callback: ""},
+          {name: "../vsnative/", callback: ""}
+        ]}
+      ]},
+    //  {seperator},
+      {name: "Save", callback: ""},
+      {name: "Save As", callback: ""},
+      {name: "Save All", callback: ""},
+      {name: "Save", callback: ""},
+    //  {seperator},
+      {name: "Auto Save", toggle: true, callback: ""},
+    //  {seperator},
+      {name: "Preferences", callback: ""},
+    //  {seperator},
+      {name: "Revert File", callback: ""},
+      {name: "Close Editor", callback: ""},
+      {name: "Close Folder", callback: ""},
+      {name: "Close Window", callback: ""}
+    ]
+  },
   {name: "Edit"},
   {name: "Selection"},
   {name: "View"},
+  {name: "Go"},
+  {name: "Debug"},
+  {name: "Tasks"},
   {name: "Help"}
 ]
 
@@ -59,7 +67,8 @@ export default class App extends Component<{}> {
       <View style={commonStyles.container}>
         <Menubar
           data={menuData}
-          style={{flex: .23, flexDirection: 'row', backgroundColor: '#ddd'}} />
+          style={{flex: .23, flexDirection: 'row', backgroundColor: '#f0f0f0'}} />
+        
         <View style={[commonStyles.container, {flex: 9.77,flexDirection: 'row'}]}>
           <Sidebar />
 
