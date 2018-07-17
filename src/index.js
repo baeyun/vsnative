@@ -4,7 +4,7 @@ import { SplitViewWindows } from 'react-native-windows'
 
 import TreeView from './components/TreeView'
 import Icon from './components/Icon'
-import Menubar from './components/native/Menubar'
+import Menubar from './components/Menubar'
 import Sidebar from './views/Sidebar'
 import CodeEditor from './views/CodeEditor/'
 import Statusbar from './views/Statusbar'

@@ -14,6 +14,7 @@ var iface = {
   },
 };
 
+// Get native component
 const Menubar = requireNativeComponent('VSNativeMenubar', iface);
 
 export default ({style, ...rest}) => {
