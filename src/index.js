@@ -4,15 +4,17 @@ import { SplitViewWindows } from 'react-native-windows'
 
 import TreeView from './components/TreeView'
 import Icon from './components/Icon'
-
-import commonStyles from './themes/commonStyles'
-
-import Menubar from './components/windows/Menubar'
+import Menubar from './components/native/Menubar'
 import Sidebar from './views/Sidebar'
 import CodeEditor from './views/CodeEditor/'
 import Statusbar from './views/Statusbar'
+import commonStyles from './themes/commonStyles'
 
 import { readFile, DocumentDirectoryPath } from 'react-native-fs'
+
+// import { DeviceEventEmitter } from 'react-native';
+
+// DeviceEventEmitter.addListener('testEvent', (e) => { console.log(e) })
 
 const menuData = [
   {
@@ -73,9 +75,9 @@ export default class App extends Component<{}> {
       <View style={commonStyles.container}>
         <Menubar
           data={menuData}
-          style={{flex: .23, flexDirection: 'row', backgroundColor: '#f0f0f0'}} />
+          style={{flex: 1, maxHeight: 25, flexDirection: 'row', backgroundColor: '#f0f0f0'}} />
         
-        <View style={[commonStyles.container, {flex: 9.77,flexDirection: 'row'}]}>
+        <View style={[commonStyles.container, {flex: 1,flexDirection: 'row'}]}>
           <Sidebar />
 
           <CodeEditor />
