@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using ReactNative.Bridge;
 using ReactNative.Collections;
+using ReactNative.Modules.Core;
 using System;
 using System.Collections.Generic;
 using Windows.Storage;
@@ -16,6 +17,7 @@ namespace vsnative
         public VSNativeFSManager(ReactContext reactContext)
             : base(reactContext)
         {
+            this.reactContext = reactContext;
         }
 
         public override string Name
@@ -23,6 +25,20 @@ namespace vsnative
             get
             {
                 return "VSNativeFSManager";
+            }
+        }
+
+        public ReactContext reactContext;
+
+        public StorageFolder currenFolder;
+
+        // Emit events on the JS side
+        internal RCTDeviceEventEmitter Emitter
+        {
+            get
+            {
+                // @todo make singleton?
+                return this.reactContext.GetJavaScriptModule<RCTDeviceEventEmitter>();
             }
         }
 
@@ -58,6 +74,7 @@ namespace vsnative
         [ReactMethod]
         public async void pickFolderDialogue(IPromise promise)
         {
+            Emitter.emit("API_TEST_EVENT", JObject.Parse("{test: true}"));
             try
             {
                 FolderPicker folderPicker = new FolderPicker
@@ -73,6 +90,9 @@ namespace vsnative
                     {
                         StorageFolder folder = await folderPicker.PickSingleFolderAsync();
 
+                        // set as current working folder
+                        this.currenFolder = folder;
+
                         promise.Resolve(folder);
                     }
                 );
@@ -84,8 +104,9 @@ namespace vsnative
         }
 
         // @todo
-        //    - handle no empty file save replace
+        //    - fix app crash after canceling file save dialogue
         //    - add more FileTypeChoices dynamically
+        //    - handle no empty file save replace
         [ReactMethod]
         public async void pickFileSaveDialogue(JObject data, IPromise promise)
         {
