@@ -14,44 +14,38 @@ import { readFile, DocumentDirectoryPath } from 'react-native-fs'
 
 // import { DeviceEventEmitter } from 'react-native';
 
-// DeviceEventEmitter.addListener('testEvent', (e) => { console.log(e) })
+// DeviceEventEmitter.addListener('MenubarItemClick', (data) => { console.log(data) })
 
 const menuData = [
   {
     name: "File",
     submenu: [
-      {name: "New File", callback: ""},
-      {name: "New Window", callback: ""},
+      {name: "New File", action: "CREATE_FILE"},
+      {name: "New Window", action: "CREATE_WINDOW"},
       {seperator: true},
-      {name: "Open File", callback: ""},
-      {name: "Open Folder", callback: ""},
+      {name: "Open File", action: "OPEN_FILE"},
+      {name: "Open Folder", action: "OPEN_FOLDER"},
       {seperator: true},
-      {name: "Open Workspace", callback: ""},
-      {name: "Open recent", submenu: [
-        {name: "./views/CodeEditor/index.js", callback: ""},
-        {name: "../components/windows/MenuButton", callback: ""},
-        {name: "./guppy/scripts/", callback: ""},
-        {name: "../static/img/logo.png", callback: ""},
-        {name: "More...", submenu: [
-          {name: "./guppy/scripts/", callback: ""},
-          {name: "../components/windows/MenuButton", callback: ""},
-          {name: "../vsnative/", callback: ""}
-        ]}
+      {name: "Open recent", submenu: [ // @todo get from store
+        {name: "./views/CodeEditor/index.js", action: "OPEN_RECENT"},
+        {name: "../components/windows/MenuButton", action: "OPEN_RECENT"},
+        {name: "./guppy/scripts/", action: "openRecent"},
+        {name: "../static/img/logo.png", action: "OPEN_RECENT"},
+        {name: "../vsnative/", action: "OPEN_RECENT"}
       ]},
       {seperator: true},
-      {name: "Save", callback: ""},
-      {name: "Save As", callback: ""},
-      {name: "Save All", callback: ""},
-      {name: "Save", callback: ""},
+      {name: "Save", action: "save"},
+      {name: "Save As", action: "SAVE_AS"},
+      {name: "Save All", action: "SAVE_ALL"},
       {seperator: true},
-      {name: "Auto Save", toggle: true, callback: ""},
+      {name: "Auto Save", toggle: true, action: "TOGGLE_AUTO_SAVE"},
       {seperator: true},
-      {name: "Preferences", callback: ""},
+      {name: "Preferences", action: "OPEN_PREFERENCE_SETTINGS"},
       {seperator: true},
-      {name: "Revert File", callback: ""},
-      {name: "Close Editor", callback: ""},
-      {name: "Close Folder", callback: ""},
-      {name: "Close Window", callback: ""}
+      {name: "Revert File", clickEvent: "REVERT_FILE"},
+      {name: "Close Editor", action: "CLOSE_EDITOR"},
+      {name: "Close Folder", action: "CLOSE_FOLDER"},
+      {name: "Close Window", action: "CLOSE_WINDOW"}
     ]
   },
   {name: "Edit", submenu: [

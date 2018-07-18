@@ -11,6 +11,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Markup;
+using Windows.UI.Popups;
 
 public class VSNativeMenubarManager : SimpleViewManager<StackPanel>
 {
@@ -64,7 +65,11 @@ public class VSNativeMenubarManager : SimpleViewManager<StackPanel>
 
             if (menuBtn.Value<JArray>("submenu") != null)
             {
-                XElement menu = new XElement(this.XamlNamespace + "MenuFlyout");
+                XElement menu = new XElement(
+                    this.XamlNamespace + "MenuFlyout"
+                    //new XAttribute(XName.Get("Class", "http://schemas.microsoft.com/winfx/2006/xaml"), "VSNativeMenubarManager"),
+                    //new XAttribute(this.XamlNamespace + "x", "http://schemas.microsoft.com/winfx/2006/xaml")
+                );
 
                 menu.Add(
                     this.DataToMenuFlyoutItems(menuBtn.Value<JArray>("submenu"))
@@ -102,10 +107,21 @@ public class VSNativeMenubarManager : SimpleViewManager<StackPanel>
                 menuItem.Add(
                     this.DataToMenuFlyoutItems(d.Value<JArray>("submenu"))
                 );
+            else
+                menuItem.Add(
+                    new XAttribute("Click", "HandleMenuItemClick")
+                );
 
             menuItems.Add(menuItem);
         }
 
         return menuItems;
+    }
+
+    public async void HandleMenuItemClick(string msg = "NO MSG")
+    {
+        //Emitter.emit("MenubarItemClick", JObject.Parse("{test: true}"));
+        var messageDialog = new MessageDialog(msg);
+        await messageDialog.ShowAsync();
     }
 }
