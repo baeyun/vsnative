@@ -2,15 +2,11 @@ import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import { SplitViewWindows } from 'react-native-windows'
 
-import TreeView from './components/TreeView'
-import Icon from './components/Icon'
 import Menubar from './components/Menubar'
 import Sidebar from './views/Sidebar'
 import CodeEditor from './views/CodeEditor/'
 import Statusbar from './views/Statusbar'
 import commonStyles from './themes/commonStyles'
-
-import { readFile, DocumentDirectoryPath } from 'react-native-fs'
 
 // import { DeviceEventEmitter } from 'react-native';
 
