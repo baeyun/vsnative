@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Provider;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 
@@ -30,9 +31,12 @@ namespace vsnative
         {
             try
             {
-                var openPicker = new FileOpenPicker();
-                openPicker.ViewMode = PickerViewMode.List;
-                openPicker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
+                FileOpenPicker openPicker = new FileOpenPicker
+                {
+                    ViewMode = PickerViewMode.List,
+                    SuggestedStartLocation = PickerLocationId.ComputerFolder
+                };
+
                 openPicker.FileTypeFilter.Add("*");
 
                 CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
@@ -56,8 +60,11 @@ namespace vsnative
         {
             try
             {
-                FolderPicker folderPicker = new FolderPicker();
-                folderPicker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
+                FolderPicker folderPicker = new FolderPicker
+                {
+                    SuggestedStartLocation = PickerLocationId.ComputerFolder
+                };
+
                 folderPicker.FileTypeFilter.Add("*");
 
                 CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
@@ -67,6 +74,59 @@ namespace vsnative
                         StorageFolder folder = await folderPicker.PickSingleFolderAsync();
 
                         promise.Resolve(folder);
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                promise.Reject(ex);
+            }
+        }
+
+        // @todo
+        //    - handle no empty file save replace
+        //    - add more FileTypeChoices dynamically
+        [ReactMethod]
+        public async void pickFileSaveDialogue(JObject data, IPromise promise)
+        {
+            try
+            {
+                FileSavePicker savePicker = new FileSavePicker
+                {
+                    SuggestedStartLocation = PickerLocationId.ComputerFolder
+                };
+
+                // Dropdown of file types the user can save the file as
+                savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".txt" });
+                // Default file name if the user does not type one in or select a file to replace
+                if (data.Value<string>("suggestedFileName") != null)
+                    savePicker.SuggestedFileName = data.Value<string>("suggestedFileName");
+
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                    CoreDispatcherPriority.Normal,
+                    async () =>
+                    {
+                        StorageFile file = await savePicker.PickSaveFileAsync();
+
+                        if (data.Value<string>("fileContent") != null)
+                        {
+                            // Prevent updates to the remote version of the file until
+                            // we finish making changes and call CompleteUpdatesAsync.
+                            CachedFileManager.DeferUpdates(file);
+                            // write to file
+                            await FileIO.WriteTextAsync(file, data.Value<string>("fileContent"));
+                            // Let Windows know that we're finished changing the file so
+                            // the other app can update the remote version of the file.
+                            // Completing updates may require Windows to ask for user input.
+                            FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+
+                            if (status == FileUpdateStatus.Complete)
+                                promise.Resolve(file);
+                        }
+                        else
+                        {
+                            promise.Resolve(file);
+                        }
                     }
                 );
             }

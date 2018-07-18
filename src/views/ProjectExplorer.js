@@ -10,7 +10,7 @@ import commonStyles from '../themes/commonStyles'
 import TreeView from '../components/TreeView'
 import Icon from '../components/Icon'
 
-import { pickFolder, pickFile } from '../services/native-fs'
+import { pickFolder, pickFile, pickFileSave } from '../services/native-fs'
 
 
 // @note should be loaded from store
@@ -100,6 +100,17 @@ export default ({display}) => {
 
       <Button title="Open Folder" onPress={() => {console.log(pickFolder())}} color="#ddd" />
       <Button title="Open File(s)" onPress={() => {console.log(pickFile())}} color="#ddd" />
+      <Button
+        title="Save dummy file"
+        onPress={
+          () => {
+            console.log(pickFileSave({
+              suggestedFileName: 'testFile.txt',
+              fileContent: 'Some lorem text would be fine, it\'s just that I ain\'t got any.'
+            }))
+          }
+        }
+        color="#ddd" />
       
       {/* <TreeView data={treeData} /> */}
     </View>
