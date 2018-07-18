@@ -50,5 +50,30 @@ namespace vsnative
                 promise.Reject(ex);
             }
         }
+
+        [ReactMethod]
+        public async void pickFolderDialogue(IPromise promise)
+        {
+            try
+            {
+                FolderPicker folderPicker = new FolderPicker();
+                folderPicker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
+                folderPicker.FileTypeFilter.Add("*");
+
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                    CoreDispatcherPriority.Normal,
+                    async () =>
+                    {
+                        StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+
+                        promise.Resolve(folder);
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                promise.Reject(ex);
+            }
+        }
     }
 }

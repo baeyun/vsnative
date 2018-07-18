@@ -13,3 +13,10 @@ export const pickFile = async () => {
   }
 }
 
+export const pickFolder = async () => {
+  try {
+    return await fs.pickFolderDialogue()
+  } catch (e) {
+    throw e
+  }
+}

@@ -10,7 +10,7 @@ import commonStyles from '../themes/commonStyles'
 import TreeView from '../components/TreeView'
 import Icon from '../components/Icon'
 
-import { pickFile } from '../services/native-fs'
+import { pickFolder, pickFile } from '../services/native-fs'
 
 
 // @note should be loaded from store
@@ -98,6 +98,7 @@ export default ({display}) => {
         <Icon style={styles.actionbarIcon} name="chevron-up" size={20} color="#999999" />
       </View>
 
+      <Button title="Open Folder" onPress={() => {console.log(pickFolder())}} color="#ddd" />
       <Button title="Open File(s)" onPress={() => {console.log(pickFile())}} color="#ddd" />
       
       {/* <TreeView data={treeData} /> */}
