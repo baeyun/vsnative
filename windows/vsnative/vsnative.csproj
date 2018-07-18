@@ -181,6 +181,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VSNativeFSManager.cs" />
     <Compile Include="VSNativeMenubarManager.cs" />
     <Compile Include="MainReactNativeHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

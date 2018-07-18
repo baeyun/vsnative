@@ -22,7 +22,10 @@ namespace vsnative
         /// <returns>The list of native modules.</returns>
         public IReadOnlyList<INativeModule> CreateNativeModules(ReactContext reactContext)
         {
-            return new List<INativeModule>(0);
+            return new List<INativeModule>
+            {
+                new VSNativeFSManager(reactContext),
+            };
         }
 
         /// <summary>
