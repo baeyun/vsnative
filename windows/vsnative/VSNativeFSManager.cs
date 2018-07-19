@@ -74,7 +74,6 @@ namespace vsnative
         [ReactMethod]
         public async void pickFolderDialogue(IPromise promise)
         {
-            Emitter.emit("API_TEST_EVENT", JObject.Parse("{test: true}"));
             try
             {
                 FolderPicker folderPicker = new FolderPicker
@@ -91,7 +90,8 @@ namespace vsnative
                         StorageFolder folder = await folderPicker.PickSingleFolderAsync();
 
                         // set as current working folder
-                        this.currenFolder = folder;
+                        if (folder != null)
+                            this.currenFolder = folder;
 
                         promise.Resolve(folder);
                     }
@@ -104,7 +104,6 @@ namespace vsnative
         }
 
         // @todo
-        //    - fix app crash after canceling file save dialogue
         //    - add more FileTypeChoices dynamically
         //    - handle no empty file save replace
         [ReactMethod]
@@ -129,7 +128,7 @@ namespace vsnative
                     {
                         StorageFile file = await savePicker.PickSaveFileAsync();
 
-                        if (data.Value<string>("fileContent") != null)
+                        if (file != null && data.Value<string>("fileContent") != null)
                         {
                             // Prevent updates to the remote version of the file until
                             // we finish making changes and call CompleteUpdatesAsync.
