@@ -11,9 +11,9 @@ import TreeView from '../components/TreeView'
 import Icon from '../components/Icon'
 
 import { pickFolder, pickFile, pickFileSave } from '../services/native-fs'
-// import { DeviceEventEmitter } from 'react-native';
 
-// DeviceEventEmitter.addListener('API_TEST_EVENT', (data) => { console.log(data) })
+// import { DeviceEventEmitter } from 'react-native';
+// DeviceEventEmitter.addListener('CURRENT_FOLDER_STRUCTURE', (data) => { console.log(data) })
 
 
 // @note should be loaded from store
