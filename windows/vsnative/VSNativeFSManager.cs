@@ -59,7 +59,7 @@ namespace vsnative
 
                 openPicker.FileTypeFilter.Add("*");
 
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                     CoreDispatcherPriority.Normal,
                     async () =>
                     {
@@ -114,7 +114,7 @@ namespace vsnative
 
                 folderPicker.FileTypeFilter.Add("*");
 
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                     CoreDispatcherPriority.Normal,
                     async () =>
                     {
@@ -161,7 +161,7 @@ namespace vsnative
                 if (data.Value<string>("suggestedFileName") != null)
                     savePicker.SuggestedFileName = data.Value<string>("suggestedFileName");
 
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                     CoreDispatcherPriority.Normal,
                     async () =>
                     {
