@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -89,35 +89,47 @@ const treeData = [
   {name:'README.md'}
 ]
 
-export default ({display}) => {
-  return (
-    <View style={[commonStyles.sidebarTab, {display: display ? null : 'none'}]}>
-      <View style={styles.actionbar}>
-        <Text style={styles.actionbarTitle} children="EXPLORER: PROJECT" />
+export default class ProjectExplorer extends Component<{}> {
+  constructor(props) {
+    super(props)
 
-        <Icon style={styles.actionbarIcon} name="plus" size={20} color="#999999" />
-        <Icon style={styles.actionbarIcon} name="file-directory" size={20} color="#999999" />
-        <Icon style={styles.actionbarIcon} name="sync" size={20} color="#999999" />
-        <Icon style={styles.actionbarIcon} name="chevron-up" size={20} color="#999999" />
+    this.state = {
+      treeData: null
+    }
+  }
+
+  render() {
+    const { display } = this.props
+    
+    return (
+      <View style={[commonStyles.sidebarTab, {display: display ? null : 'none'}]}>
+        <View style={styles.actionbar}>
+          <Text style={styles.actionbarTitle} children="EXPLORER: PROJECT" />
+
+          <Icon style={styles.actionbarIcon} name="plus" size={20} color="#999999" />
+          <Icon style={styles.actionbarIcon} name="file-directory" size={20} color="#999999" />
+          <Icon style={styles.actionbarIcon} name="sync" size={20} color="#999999" />
+          <Icon style={styles.actionbarIcon} name="chevron-up" size={20} color="#999999" />
+        </View>
+
+        <Button
+          title="Open Folder"
+          onPress={() => {
+            pickFolder().then(data => {
+              if (data)
+                this.setState({ treeData: data })
+              
+              console.log(data)
+            }).catch(e => {
+              console.log(e)
+            })
+          }}
+          color="#ddd" />
+
+        { this.state.treeData && <TreeView data={this.state.treeData} /> }
       </View>
-
-      <Button title="Open Folder" onPress={() => {console.log(pickFolder())}} color="#ddd" />
-      <Button title="Open File(s)" onPress={() => {console.log(pickFile())}} color="#ddd" />
-      <Button
-        title="Save dummy file"
-        onPress={
-          () => {
-            console.log(pickFileSave({
-              suggestedFileName: 'testFile.txt',
-              fileContent: 'Some lorem text would be fine, it\'s just that I ain\'t got any.'
-            }))
-          }
-        }
-        color="#ddd" />
-      
-      {/* <TreeView data={treeData} /> */}
-    </View>
-  )
+    )
+  }
 }
 
 const styles = StyleSheet.create({

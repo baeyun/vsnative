@@ -5,14 +5,14 @@ import {
 } from 'react-native'
 
 import TabHeaders from './TabHeaders'
-import Editor from './Editor'
+// import Editor from './Editor'
 
 export default (props) => {
   return (
     <View style={styles.container}>
       <TabHeaders />
       
-      <Editor />
+      {/* <Editor /> */}
     </View>
   )
 }

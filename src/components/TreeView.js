@@ -18,40 +18,36 @@ export default class TreeView extends Component<{}> {
 
   componentWillMount() {
     this.setState({
-      data: this.createTreeMap(this.props.data)
+      rootPath: this.props.data.Path,
+      data: this.props.data.Children // this.createTreeMap(this.props.data)
     })
   }
   
-  createTreeMap(data, objPath=[]) {
-    let { collapseAll = false } = this.props
+  // createTreeMap(data) {
+  //   let { collapseAll = false } = this.props
 
-    // Sort: folders first
-    // @todo presort tree data via file watch
-    data.sort((a, b) => -(Object.keys(a).length - Object.keys(b).length))
+  //   // Sort: folders first
+  //   // @todo presort tree data via file watch
+  //   //data.sort((a, b) => -(Object.keys(a).length - Object.keys(b).length))
 
-    return data.map(
-      (node, i) => {
-        node.objPath = objPath
-        // node.path = this.pathFromObjPath(objPath)
+  //   return data.map(
+  //     (node, i) => {
+  //       //node.objPath = objPath
+  //       // node.path = this.pathFromObjPath(objPath)
         
-        if (node.children) {
-          node.isCollapsed = collapseAll
-          if (node.children.length > 0)
-            node.children = this.createTreeMap(
-              node.children,
-              objPath.length
-                ? node.objPath.concat(['children', i])
-                : node.objPath.concat(i)
-            )
-        }
+  //       if (node.Children) {
+  //         node.isCollapsed = collapseAll
+  //         if (node.Children.length > 0)
+  //           node.Children = this.createTreeMap(node.Children)
+  //       }
 
-        return node
-      }
-    )
-  }
+  //       return node
+  //     }
+  //   )
+  // }
 
   isDir(node) {
-    return node.hasOwnProperty('isCollapsed') && node.isCollapsed.constructor === Boolean
+    return node.DisplayType === "File folder" && node.Children
   }
 
   handleTreeNodeClick(node, i) {
@@ -74,7 +70,7 @@ export default class TreeView extends Component<{}> {
     }
   }
 
-  renderNode(node, i, children = null) {
+  renderNode(node, i, Children = null) {
     const nodeKey = "treeNode_" + i
     
     return (
@@ -82,7 +78,7 @@ export default class TreeView extends Component<{}> {
         <View>
           <TouchableHighlight
             onPress={() => this.handleTreeNodeClick(node, i)}
-            style={[styles.treeNode, {paddingLeft: (node.objPath.length * 15) + 20}]}
+            style={[styles.treeNode, {paddingLeft: (node.Path * 15) + 20}]}
             underlayColor="#1e1e1e"
           >
             <Fragment>
@@ -94,12 +90,12 @@ export default class TreeView extends Component<{}> {
                   : <Icon name="file-text" size={16} color="#bbb" />
               }
               <Text
-                children={node.name}
+                children={node.Name}
                 style={styles.treeNodeText} />
             </Fragment>
           </TouchableHighlight>
 
-          { node.isCollapsed && children && <View style={styles.nodeChildren} children={children} /> }
+          { !node.isCollapsed && Children && <View style={styles.nodeChildren} children={Children} /> }
         </View>
       </View>
     )
@@ -107,9 +103,9 @@ export default class TreeView extends Component<{}> {
   
   getChildNodes(data) {
     return data.map((node, i) => {
-      if (this.isDir(node) && node.children && node.children.length > 0)
+      if (this.isDir(node) && node.Children)
         return this.renderNode(
-          node, i, this.getChildNodes(node.children)
+          node, i, this.getChildNodes(node.Children)
         )
 
       return this.renderNode(node, i)
@@ -119,7 +115,7 @@ export default class TreeView extends Component<{}> {
   render() {
     return <ScrollView
       // indicatorStyle="black"
-      showsVerticalScrollIndicator={false}
+      // showsVerticalScrollIndicator={false}
       children={this.getChildNodes(this.state.data)}
       style={styles.container}
     />

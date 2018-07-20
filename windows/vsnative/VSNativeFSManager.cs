@@ -87,6 +87,8 @@ namespace vsnative
                     JObject newItem = JObject.FromObject(f);
                     bool isEmpty = await f.GetItemsAsync(0, 1) == null;
 
+                    newItem.Add(new JProperty("isCollapsed", true));
+
                     if (!isEmpty)
                         newItem.Add(new JProperty("Children", await GetDirTree(f)));
 
@@ -125,7 +127,12 @@ namespace vsnative
                             // set as current working folder
                             //this.currenFolder = folder;
 
-                            JArray folderTree = await GetDirTree(folder);
+                            JObject folderTree = JObject.FromObject(folder);
+
+                            folderTree.Add(
+                                new JProperty("Children", await GetDirTree(folder)),
+                                new JProperty("isCollapsed", false)
+                            );
 
                             promise.Resolve(folderTree);
                         }
