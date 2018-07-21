@@ -186,6 +186,7 @@
     <Compile Include="MainReactNativeHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VSNativePackage.cs" />
+    <Compile Include="VSNativeTreeViewManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

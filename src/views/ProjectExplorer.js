@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native'
 
+import { pickFolder } from '../services/native-fs'
 import commonStyles from '../themes/commonStyles'
-import TreeView from '../components/TreeView'
+import TreeView from '../components/NativeTreeView'
 import Icon from '../components/Icon'
 
 // import { DeviceEventEmitter } from 'react-native';
@@ -18,7 +20,8 @@ export default class ProjectExplorer extends Component<{}> {
     super(props)
 
     this.state = {
-      treeData: null
+      rootPath: null,
+      data: null
     }
   }
 
@@ -36,7 +39,35 @@ export default class ProjectExplorer extends Component<{}> {
           <Icon style={styles.actionbarIcon} name="chevron-up" size={20} color="#999999" />
         </View>
 
-        <TreeView />
+        <Button
+          title="Open Folder"
+          onPress={() => {
+            pickFolder().then(data => {
+              this.setState({
+                root: {
+                  Attributes: data.Attributes,
+                  Datecreated: data.DateCreated,
+                  Displayname: data.DisplayName,
+                  Displaytype: data.DisplayType,
+                  Folderrelativeid: data.FolderRelativeId,
+                  Name: data.Name,
+                  Path: data.Path,
+                  Properties: data.Properties,
+                  Provider: data.Provider,
+                  IsCollapsed: data.IsCollapsed,
+                  Depth: (data.Path.match(/\\/g)||[]).length
+                },
+                data: data.Children
+              })
+
+              console.log(this.state)
+            }).catch(e => {
+              console.log(e)
+            })
+          }}
+          color="#ddd" />
+
+        { this.state.root && <TreeView path={this.state.root.Path} />}
       </View>
     )
   }
