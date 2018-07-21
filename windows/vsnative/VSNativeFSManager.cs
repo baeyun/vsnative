@@ -75,30 +75,60 @@ namespace vsnative
             }
         }
 
-        public async Task<JArray> GetDirTree(StorageFolder folder)
+        public async Task<JArray> GetDirTree(StorageFolder folder, List<string>ObjPath = null)
         {
             JArray tree = new JArray();
             List<StorageFolder> folders = new List<StorageFolder>(await folder.GetFoldersAsync());
             List<StorageFile> files = new List<StorageFile>(await folder.GetFilesAsync());
 
             if (folders != null)
-                foreach (StorageFolder f in folders)
+                for (int i = 0; i < folders.Count; i++)
                 {
+                    StorageFolder f = folders[i];
                     JObject newItem = JObject.FromObject(f);
                     bool isEmpty = await f.GetItemsAsync(0, 1) == null;
 
-                    newItem.Add(new JProperty("isCollapsed", true));
+                    newItem.Add(new JProperty("IsCollapsed", true));
+
+                    List<string> newObjPath = new List<string>();
+
+                    if (ObjPath != null && ObjPath.Count > 0)
+                    {
+                        newObjPath.AddRange(ObjPath);
+                        newObjPath.Add("Children");
+                    }
+
+                    newObjPath.Add(i.ToString());
+
+                    newItem.Add(new JProperty("ObjPath", newObjPath));
 
                     if (!isEmpty)
-                        newItem.Add(new JProperty("Children", await GetDirTree(f)));
+                        newItem.Add(new JProperty(
+                            "Children",
+                            await GetDirTree(f, newObjPath)
+                        ));
 
                     tree.Add(newItem);
                 }
 
             if (files != null)
-                foreach (StorageFile file in files)
+                for (int i = 0; i < files.Count; i++)
                 {
-                    tree.Add(JObject.FromObject(file));
+                    JObject f = JObject.FromObject(files[i]);
+
+                    List<string> newObjPath = new List<string>();
+
+                    if (ObjPath != null && ObjPath.Count > 0)
+                    {
+                        newObjPath.AddRange(ObjPath);
+                        newObjPath.Add("Children");
+                    }
+
+                    newObjPath.Add((folders.Count + i).ToString());
+
+                    f.Add(new JProperty("ObjPath", newObjPath));
+
+                    tree.Add(f);
                 }
 
             return tree;
@@ -130,8 +160,11 @@ namespace vsnative
                             JObject folderTree = JObject.FromObject(folder);
 
                             folderTree.Add(
-                                new JProperty("Children", await GetDirTree(folder)),
-                                new JProperty("isCollapsed", false)
+                                new JProperty("Children", await GetDirTree(folder))
+                            );
+
+                            folderTree.Add(
+                                new JProperty("IsCollapsed", false)
                             );
 
                             promise.Resolve(folderTree);

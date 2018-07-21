@@ -4,53 +4,58 @@ import {
   Text,
   View,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  Button
 } from 'react-native'
 
 import Icon from './Icon'
+import { pickFolder, pickFile, pickFileSave } from '../services/native-fs'
 
 const setObjByPath = require('lodash.set')
 
 export default class TreeView extends Component<{}> {
   constructor(props) {
     super(props)
-  }
-
-  componentWillMount() {
-    this.setState({
-      rootPath: this.props.data.Path,
-      data: this.props.data.Children // this.createTreeMap(this.props.data)
-    })
+    
+    this.state = {
+      rootPath: null,
+      data: null
+    }
   }
   
-  // createTreeMap(data) {
-  //   let { collapseAll = false } = this.props
+  createTreeMap(data, objPath=[]) {
+    let { collapseAll = false } = this.props
 
-  //   // Sort: folders first
-  //   // @todo presort tree data via file watch
-  //   //data.sort((a, b) => -(Object.keys(a).length - Object.keys(b).length))
+    // Sort: folders first
+    // @todo presort tree data via file watch
+    data.sort((a, b) => -(Object.keys(a).length - Object.keys(b).length))
 
-  //   return data.map(
-  //     (node, i) => {
-  //       //node.objPath = objPath
-  //       // node.path = this.pathFromObjPath(objPath)
+    return data.map(
+      (node, i) => {
+        node.objPath = objPath
+        // node.path = this.pathFromObjPath(objPath)
         
-  //       if (node.Children) {
-  //         node.isCollapsed = collapseAll
-  //         if (node.Children.length > 0)
-  //           node.Children = this.createTreeMap(node.Children)
-  //       }
+        if (node.children) {
+          node.isCollapsed = collapseAll
+          if (node.children.length > 0)
+            node.children = this.createTreeMap(
+              node.children,
+              objPath.length
+                ? node.objPath.concat(['children', i])
+                : node.objPath.concat(i)
+            )
+        }
 
-  //       return node
-  //     }
-  //   )
-  // }
+        return node
+      }
+    )
+  }
 
   isDir(node) {
     return node.DisplayType === "File folder" && node.Children
   }
 
-  handleTreeNodeClick(node, i) {
+  handleTreeNodeClick(node) {
     if (this.isDir(node)) { // Folder
       // Toggle collapse state
       node.isCollapsed = !node.isCollapsed
@@ -60,7 +65,7 @@ export default class TreeView extends Component<{}> {
         return {
           data: setObjByPath(
             previousState.data,
-            node.objPath.concat(i),
+            node.ObjPath,
             node
           )
         }
@@ -71,14 +76,18 @@ export default class TreeView extends Component<{}> {
   }
 
   renderNode(node, i, Children = null) {
-    const nodeKey = "treeNode_" + i
+    const nodeKey = "treeNode_" + i,
+          indentDepth = (((node.Path.match(/\\/g)||[]).length - this.state.root.Depth) * 15) + 20
     
     return (
       <View key={nodeKey}>
         <View>
           <TouchableHighlight
-            onPress={() => this.handleTreeNodeClick(node, i)}
-            style={[styles.treeNode, {paddingLeft: (node.Path * 15) + 20}]}
+            onPress={() => this.handleTreeNodeClick(node)}
+            style={[
+              styles.treeNode,
+              {paddingLeft: indentDepth}
+            ]}
             underlayColor="#1e1e1e"
           >
             <Fragment>
@@ -95,7 +104,7 @@ export default class TreeView extends Component<{}> {
             </Fragment>
           </TouchableHighlight>
 
-          { !node.isCollapsed && Children && <View style={styles.nodeChildren} children={Children} /> }
+          { node.isCollapsed && Children && <View style={styles.nodeChildren} children={Children} /> }
         </View>
       </View>
     )
@@ -113,12 +122,47 @@ export default class TreeView extends Component<{}> {
   }
 
   render() {
-    return <ScrollView
-      // indicatorStyle="black"
-      // showsVerticalScrollIndicator={false}
-      children={this.getChildNodes(this.state.data)}
-      style={styles.container}
-    />
+    return (
+      <Fragment>
+        <Button
+          title="Open Folder"
+          onPress={() => {
+            pickFolder().then(data => {
+              this.setState({
+                root: {
+                  Attributes: data.Attributes,
+                  Datecreated: data.DateCreated,
+                  Displayname: data.DisplayName,
+                  Displaytype: data.DisplayType,
+                  Folderrelativeid: data.FolderRelativeId,
+                  Name: data.Name,
+                  Path: data.Path,
+                  Properties: data.Properties,
+                  Provider: data.Provider,
+                  IsCollapsed: data.IsCollapsed,
+                  Depth: (data.Path.match(/\\/g)||[]).length
+                },
+                data: data.Children
+              })
+
+              console.log(this.state)
+            }).catch(e => {
+              console.log(e)
+            })
+          }}
+          color="#ddd" />
+        {
+          this.state.data
+            ? <ScrollView
+                // indicatorStyle="black"
+                // showsVerticalScrollIndicator={false}
+                children={this.getChildNodes(this.state.data)}
+                style={styles.container}
+              />
+            : <Text children="You have not yet opened a folder." />
+        }
+      </Fragment>
+    )
   }
 }
 

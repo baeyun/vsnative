@@ -2,92 +2,16 @@ import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
-  View,
-  Button
+  View
 } from 'react-native'
 
 import commonStyles from '../themes/commonStyles'
 import TreeView from '../components/TreeView'
 import Icon from '../components/Icon'
 
-import { pickFolder, pickFile, pickFileSave } from '../services/native-fs'
-
 // import { DeviceEventEmitter } from 'react-native';
 // DeviceEventEmitter.addListener('CURRENT_FOLDER_STRUCTURE', (data) => { console.log(data) })
 
-
-// @note should be loaded from store
-const treeData = [
-  {name:'.vs', children: []},
-  {name:'node_modules', children: []},
-  {name:'packages', children: []},
-  {name:'scripts', children: [
-    {name:'build-editor.js'},
-    {name:'build.js'},
-    {name:'start.js'}
-  ]},
-  {name:'src', children: [
-    {name: 'components', children: [
-      {name:'Icon.js'},
-      {name:'index.js'},
-      {name:'TreeView.js'},
-      {name:'views', children: [
-        {name:'CodeEditor', children: [
-          {name:'Editor.js'},
-          {name:'index.js'},
-          {name:'TabHeaderItem.js'},
-          {name:'TabHeaders.js'},
-        ]},
-        {name:'Debug.js'},
-        {name:'ExtensionsManager.js'},
-        {name:'GitManager.js'},
-        {name:'ProjectExplorer.js'},
-        {name:'ProjectTerminal.js'},
-        {name:'Search.js'},
-        {name:'Settings.js'},
-        {name:'Sidebar.js'},
-        {name:'Statusbar.js'}
-      ]},
-      {name:'index.js'}
-    ]}
-  ]},
-  {name:'static', children: [
-    {name:'icons', children: [
-      {name:'octicons-selection.json'},
-      {name:'octicons.eot'},
-      {name:'octicons.svg'},
-      {name:'octicons.ttf'},
-      {name:'octicons.woff'},
-      {name:'seti-selection.json'},
-      {name:'seti.eot'},
-      {name:'seti.svg'},
-      {name:'seti.ttf'},
-      {name:'seti.woff'}
-    ]},
-    {name:'js', children: []},
-    {name:'index.html'}
-  ]},
-  {name:'themes', children: [
-    {name:'commonStyles.js'},
-    {name:'vsnDark.js'}
-  ]},
-  {name:'windows', children: []},
-  {name:'.babelrc'},
-  {name:'.buckconfig'},
-  {name:'.flowconfig'},
-  {name:'.gitattributes'},
-  {name:'.gitignore'},
-  {name:'.watchmanconfig'},
-  {name:'App.js'},
-  {name:'app.json'},
-  {name:'App.windows.js'},
-  {name:'index.js'},
-  {name:'lerna-debug.log'},
-  {name:'lerna.json'},
-  {name:'LICENSE'},
-  {name:'package.json'},
-  {name:'README.md'}
-]
 
 export default class ProjectExplorer extends Component<{}> {
   constructor(props) {
@@ -112,21 +36,7 @@ export default class ProjectExplorer extends Component<{}> {
           <Icon style={styles.actionbarIcon} name="chevron-up" size={20} color="#999999" />
         </View>
 
-        <Button
-          title="Open Folder"
-          onPress={() => {
-            pickFolder().then(data => {
-              if (data)
-                this.setState({ treeData: data })
-              
-              console.log(data)
-            }).catch(e => {
-              console.log(e)
-            })
-          }}
-          color="#ddd" />
-
-        { this.state.treeData && <TreeView data={this.state.treeData} /> }
+        <TreeView />
       </View>
     )
   }
